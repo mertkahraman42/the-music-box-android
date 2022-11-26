@@ -6,6 +6,7 @@ buildscript {
         compileSdkVersion = 31
         targetSdkVersion = compileSdkVersion
         minSdkVersion = 21
+        room_version = '2.4.3'
     }
 
     repositories {
