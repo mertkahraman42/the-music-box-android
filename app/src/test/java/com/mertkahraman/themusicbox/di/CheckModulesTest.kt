@@ -17,7 +17,7 @@ class CheckModulesTest : KoinTest {
     fun `Test Koin Modules`() {
         startKoin {
             androidContext(TmbApp())
-            modules(listOf(appModule()))
+            modules(listOf(appModule(), networkingModule()))
         }.checkModules()
 
         stopKoin()
