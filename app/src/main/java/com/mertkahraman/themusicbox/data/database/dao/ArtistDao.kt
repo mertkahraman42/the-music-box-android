@@ -11,8 +11,11 @@ interface ArtistDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun saveArtists(artists: List<Artist>)
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun saveArtist(artist: Artist)
+
     @Query("SELECT * FROM artists WHERE mbid = :artistId")
-    suspend fun getArtist(artistId: String): Artist
+    suspend fun getArtist(artistId: String): Artist?
 
     @Query("SELECT * FROM artists")
     suspend fun getAllArtists(): List<Artist>
