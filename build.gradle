@@ -7,6 +7,8 @@ buildscript {
         targetSdkVersion = compileSdkVersion
         minSdkVersion = 21
         room_version = '2.4.3'
+        koin_version= "3.2.2"
+        koin_android_version= "3.3.0"
     }
 
     repositories {
