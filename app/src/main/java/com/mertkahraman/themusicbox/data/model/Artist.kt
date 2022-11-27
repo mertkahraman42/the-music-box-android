@@ -5,5 +5,5 @@ import androidx.room.Entity
 @Entity(tableName = "artists")
 class Artist(
     mbid: String,
-    name: String,
+    val name: String,
 ) : MBEntity(mbid)
