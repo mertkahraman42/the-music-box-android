@@ -2,9 +2,11 @@ package com.mertkahraman.themusicbox.data.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.google.gson.annotations.SerializedName
 
 @Entity
 open class MBEntity(
+    @SerializedName("id")
     @PrimaryKey val mbid: String
 ) {
 

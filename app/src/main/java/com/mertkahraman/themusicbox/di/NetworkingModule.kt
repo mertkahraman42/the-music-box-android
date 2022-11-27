@@ -1,5 +1,6 @@
 package com.mertkahraman.themusicbox.di
 
+import com.mertkahraman.themusicbox.data.api.ApiService
 import com.mertkahraman.themusicbox.data.api.util.MbHeaderInterceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -14,9 +15,9 @@ fun networkingModule() = module {
     // Client: OkHttp
     single {
         OkHttpClient.Builder()
-            .addInterceptor(get<MbHeaderInterceptor>())
+            .addInterceptor(MbHeaderInterceptor())
             .addInterceptor(
-                get<HttpLoggingInterceptor>().apply {
+                HttpLoggingInterceptor().apply {
                     level = HttpLoggingInterceptor.Level.BODY
                 }
             )
@@ -34,4 +35,7 @@ fun networkingModule() = module {
             .baseUrl(BASE_URL)
             .build()
     }
+
+    // Api Service
+    single { get<Retrofit>().create(ApiService::class.java) }
 }

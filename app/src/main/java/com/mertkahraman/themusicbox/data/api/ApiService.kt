@@ -8,6 +8,8 @@ import retrofit2.http.Path
 // we can generalize lookup methods to a getEntity sort of call.
 interface ApiService {
 
-    @GET("/artist/{mbid}")
-    suspend fun getArtist(@Path("mbid") artistMbid: String): Artist
+    @GET("artist/{mbid}")
+    suspend fun getArtist(
+        @Path("mbid") artistMbid: String
+    ): Artist
 }
