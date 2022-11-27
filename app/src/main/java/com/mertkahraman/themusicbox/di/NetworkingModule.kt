@@ -15,9 +15,11 @@ fun networkingModule() = module {
     single {
         OkHttpClient.Builder()
             .addInterceptor(get<MbHeaderInterceptor>())
-            .addInterceptor(get<HttpLoggingInterceptor>().apply {
-                level = HttpLoggingInterceptor.Level.BODY
-            })
+            .addInterceptor(
+                get<HttpLoggingInterceptor>().apply {
+                    level = HttpLoggingInterceptor.Level.BODY
+                }
+            )
             .build()
     }
 
