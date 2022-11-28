@@ -5,7 +5,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.paging.LoadState
-import androidx.paging.PagingData
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.items
@@ -13,13 +12,15 @@ import com.mertkahraman.themusicbox.data.model.Artist
 import com.mertkahraman.themusicbox.ui.components.ErrorListItem
 import com.mertkahraman.themusicbox.ui.components.FullscreenSpinner
 import com.mertkahraman.themusicbox.ui.components.SpinnerListItem
-import kotlinx.coroutines.flow.Flow
+import org.koin.androidx.compose.getViewModel
 
 // This assignment project has a narrow scope and we won't be using this page to search anything else,
 // However, this could be easily extended to something like SearchEntity to search all sorts of MB entities.
 @Composable
-fun SearchArtist(artists: Flow<PagingData<Artist>>) {
-    val lazyArtistItems: LazyPagingItems<Artist> = artists.collectAsLazyPagingItems()
+fun SearchArtist(
+    viewModel: SearchArtistViewModel = getViewModel()
+) {
+    val lazyArtistItems: LazyPagingItems<Artist> = viewModel.artistList.collectAsLazyPagingItems()
 
     LazyColumn {
         items(lazyArtistItems) { artist ->

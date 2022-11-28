@@ -42,6 +42,8 @@ class RepositoryImpl(
                     artistDao.saveArtists(pagedResponse.artists)
                     apiArtists = pagedResponse.artists
                 } else {
+                    // TODO: Currently empty result is being treated as error.
+                    //  Must differentiate between failure and no result
                     Log.d(TAG, "Artist fetch failed with no results")
                     return null
                 }
