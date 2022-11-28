@@ -25,7 +25,7 @@ class RepositoryImpl(
         return apiArtist
     }
 
-    override suspend fun searchArtists(query: String, limit: Int, offset: Int): Artists {
+    override suspend fun searchArtists(query: String, limit: Int, offset: Int): Artists? {
         var apiArtists: List<Artist> = listOf()
         val cachedArtists = artistDao.searchArtists(query)
         try {
@@ -33,21 +33,28 @@ class RepositoryImpl(
                 apiService.searchArtists(query, limit, offset)
             }
             result.onSuccess { pagedResponse ->
-                Log.d(TAG, "Page ${pagedResponse.offset} received")
-                pagedResponse.artists.map { artist ->
-                    Log.d(TAG, "Fetched artist search results:")
-                    Log.d(TAG, "Artist Name: ${artist.name}")
+                if (pagedResponse.artists.isNotEmpty()) {
+                    Log.d(TAG, "Page ${pagedResponse.offset} received")
+                    pagedResponse.artists.map { artist ->
+                        Log.d(TAG, "Fetched artist search results:")
+                        Log.d(TAG, "Artist Name: ${artist.name}")
+                    }
+                    artistDao.saveArtists(pagedResponse.artists)
+                    apiArtists = pagedResponse.artists
+                } else {
+                    Log.d(TAG, "Artist fetch failed with no results")
+                    return null
                 }
-                artistDao.saveArtists(pagedResponse.artists)
-                apiArtists = pagedResponse.artists
-            }.onFailure { error -> throw(error) }
+            }.onFailure { error ->
+                Log.d(TAG, "Artist fetch failed with error: ${error.localizedMessage}")
+                return null
+            }
         } catch (error: Throwable) {
-            Log.e(TAG, error.toString())
-            Log.d(TAG, "Artist fetch failed.")
+            Log.d(TAG, "Artist fetch failed with error: ${error.localizedMessage}")
             cachedArtists?.let {
                 apiArtists = cachedArtists
             } ?: run {
-                throw error
+                return null
             }
         }
         return Artists(apiArtists, offset)

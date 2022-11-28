@@ -11,5 +11,5 @@ interface Repository {
         query: String,
         limit: Int = 10,
         offset: Int
-    ): Artists
+    ): Artists?
 }
