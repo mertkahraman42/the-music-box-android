@@ -23,4 +23,28 @@ class RepositoryImpl(
         }
         return apiArtist
     }
+
+    override suspend fun searchArtists(query: String, limit: Int, offset: Int): List<Artist>? {
+        val cachedArtists = artistDao.searchArtists(query)
+        var apiArtists: List<Artist>? = null
+        try {
+            val result = runCatching {
+                apiService.searchArtists(query, limit, offset)
+            }
+            result.onSuccess { pagedResponse ->
+                Log.d(TAG, "Page ${pagedResponse.offset} received")
+                pagedResponse.artists.map { artist ->
+                    Log.d(TAG, "Fetched artist search results:")
+                    Log.d(TAG, "Artist Name: ${artist.name}")
+                }
+                artistDao.saveArtists(pagedResponse.artists)
+                apiArtists = pagedResponse.artists
+            }.onFailure { error -> throw(error) }
+        } catch (error: Throwable) {
+            Log.e(TAG, error.toString())
+            Log.d(TAG, "Artist fetch failed.")
+            apiArtists = cachedArtists
+        }
+        return apiArtists
+    }
 }
