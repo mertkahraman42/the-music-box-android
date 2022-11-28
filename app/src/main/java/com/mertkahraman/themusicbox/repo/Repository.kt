@@ -1,6 +1,7 @@
 package com.mertkahraman.themusicbox.repo
 
 import com.mertkahraman.themusicbox.data.model.Artist
+import com.mertkahraman.themusicbox.repo.paging.Artists
 
 interface Repository {
 
@@ -10,5 +11,5 @@ interface Repository {
         query: String,
         limit: Int = 10,
         offset: Int
-    ): List<Artist>?
+    ): Artists
 }
