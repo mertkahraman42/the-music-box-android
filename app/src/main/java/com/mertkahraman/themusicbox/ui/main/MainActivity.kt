@@ -3,7 +3,6 @@ package com.mertkahraman.themusicbox.ui.main
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.foundation.layout.*
 import com.mertkahraman.themusicbox.ui.searchartist.SearchArtist
 
 class MainActivity : AppCompatActivity() {

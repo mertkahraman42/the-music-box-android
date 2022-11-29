@@ -1,6 +1,5 @@
 package com.mertkahraman.themusicbox.ui.searchartist
 
-import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
