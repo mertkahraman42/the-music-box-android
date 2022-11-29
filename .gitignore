@@ -88,3 +88,4 @@ lint/tmp/
 
 # Test
 androidTestResultsUserPreferences.xml
+deploymentTargetDropDown.xml

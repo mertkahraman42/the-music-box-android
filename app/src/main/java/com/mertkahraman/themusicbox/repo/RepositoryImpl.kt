@@ -33,30 +33,23 @@ class RepositoryImpl(
                 apiService.searchArtists(query, limit, offset)
             }
             result.onSuccess { pagedResponse ->
-                if (pagedResponse.artists.isNotEmpty()) {
-                    Log.d(TAG, "Page ${pagedResponse.offset} received")
-                    pagedResponse.artists.map { artist ->
-                        Log.d(TAG, "Fetched artist search results:")
-                        Log.d(TAG, "Artist Name: ${artist.name}")
-                    }
-                    artistDao.saveArtists(pagedResponse.artists)
-                    apiArtists = pagedResponse.artists
-                } else {
-                    // TODO: Currently empty result is being treated as error.
-                    //  Must differentiate between failure and no result
-                    Log.d(TAG, "Artist fetch failed with no results")
-                    return null
+                Log.d(TAG, "Page ${pagedResponse.offset} received")
+                pagedResponse.artists.map { artist ->
+                    Log.d(TAG, "Fetched artist search results:")
+                    Log.d(TAG, "Artist Name: ${artist.name}")
                 }
+                artistDao.saveArtists(pagedResponse.artists)
+                apiArtists = pagedResponse.artists
             }.onFailure { error ->
                 Log.d(TAG, "Artist fetch failed with error: ${error.localizedMessage}")
-                return null
+                throw(error)
             }
         } catch (error: Throwable) {
             Log.d(TAG, "Artist fetch failed with error: ${error.localizedMessage}")
-            cachedArtists?.let {
+            if (!cachedArtists.isNullOrEmpty()) {
                 apiArtists = cachedArtists
-            } ?: run {
-                return null
+            } else {
+                throw(error)
             }
         }
         return Artists(apiArtists, offset)
