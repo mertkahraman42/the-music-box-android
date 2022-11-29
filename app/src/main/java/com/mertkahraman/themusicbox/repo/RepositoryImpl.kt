@@ -25,7 +25,8 @@ class RepositoryImpl(
         return apiArtist
     }
 
-    override suspend fun searchArtists(query: String, limit: Int, offset: Int): Artists? {
+    override suspend fun searchArtists(query: String, limit: Int, offset: Int): Artists {
+        Log.d(TAG, "Will searchArtists with limit: $limit - offset: $offset")
         var apiArtists: List<Artist> = listOf()
         val cachedArtists = artistDao.searchArtists("$query%", limit, offset)
         try {
@@ -46,7 +47,7 @@ class RepositoryImpl(
             }
         } catch (error: Throwable) {
             Log.d(TAG, "Artist fetch failed with error: ${error.localizedMessage}")
-            if (!cachedArtists.isNullOrEmpty()) {
+            if (cachedArtists.isNotEmpty()) {
                 apiArtists = cachedArtists
             } else {
                 throw(error)

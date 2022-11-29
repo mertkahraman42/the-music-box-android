@@ -18,6 +18,7 @@ class SearchArtistViewModel(
     private val repository: Repository
 ) : ViewModel() {
 
+    // TODO: Implement Debounce on typeahead search
     private var _searchUIState = mutableStateOf(SearchUIState())
     val uiState: State<SearchUIState> = _searchUIState
 

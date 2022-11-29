@@ -22,5 +22,5 @@ interface ArtistDao {
 
     // TODO: Change sort type to Score (must add to model)
     @Query("SELECT * FROM artists WHERE name LIKE :nameQuery ORDER BY name ASC LIMIT :pageSize OFFSET :offset ")
-    suspend fun searchArtists(nameQuery: String, pageSize: Int, offset: Int): List<Artist>?
+    suspend fun searchArtists(nameQuery: String, pageSize: Int, offset: Int): List<Artist>
 }
