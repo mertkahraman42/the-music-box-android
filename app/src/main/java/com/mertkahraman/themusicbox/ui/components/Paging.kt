@@ -9,7 +9,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+
+// TODO: UI of all Composables here can be improved, firstly by app specific theme colors.
 
 /*
  * Use when displaying loading state for the initial request
@@ -33,13 +36,47 @@ fun FullscreenSpinner(
 @Composable
 fun SpinnerListItem() {
     CircularProgressIndicator(
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier
+            .fillMaxWidth()
             .padding(16.dp)
             .wrapContentWidth(Alignment.CenterHorizontally)
     )
 }
 
-// TODO: Revise UI
+/*
+ * Use when there's no results from repository
+ */
+@Composable
+fun EmptyListIndicator(
+    modifier: Modifier = Modifier,
+    query: String
+) {
+    Column(
+        modifier = modifier,
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Row {
+            Text(
+                text = "No results for '$query'",
+                modifier = Modifier.weight(1f),
+                style = MaterialTheme.typography.h6,
+                color = MaterialTheme.colors.primary,
+                textAlign = TextAlign.Center
+            )
+        }
+        Row {
+            Text(
+                text = "Try searching for something else.",
+                modifier = Modifier.weight(1f),
+                style = MaterialTheme.typography.subtitle1,
+                color = MaterialTheme.colors.primaryVariant,
+                textAlign = TextAlign.Center
+            )
+        }
+    }
+}
+
 @Composable
 fun ErrorListItem(
     modifier: Modifier = Modifier,
