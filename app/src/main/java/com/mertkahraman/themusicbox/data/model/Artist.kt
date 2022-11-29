@@ -1,10 +1,13 @@
 package com.mertkahraman.themusicbox.data.model
 
 import androidx.room.Entity
+import com.google.gson.annotations.SerializedName
 
 @Entity(tableName = "artists")
 class Artist(
     mbid: String,
+    @SerializedName("score")
+    val mbScore: Int,
     val name: String,
 ) : MBEntity(mbid) {
 

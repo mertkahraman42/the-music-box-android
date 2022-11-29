@@ -29,7 +29,7 @@ fun ArtistItem(artist: Artist) {
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Text(text = artist.mbid)
+            Text(text = artist.mbScore.toString())
         }
     }
 }
