@@ -16,18 +16,14 @@ class ArtistSource(
             val nextPage = params.key ?: 0
             val artistsResponse = repository.searchArtists(query, pageSize, nextPage)
 
-            artistsResponse?.let { response ->
-                if (response.artists.isEmpty())
-                    LoadResult.Error(NoResultsException("No results retrieved."))
-                else
-                    LoadResult.Page(
-                        data = response.artists,
-                        prevKey = if (nextPage == 0) null else nextPage - 1,
-                        nextKey = response.offset + pageSize
-                    )
-            } ?: run {
+            if (artistsResponse.artists.isEmpty())
                 LoadResult.Error(NoResultsException("No results retrieved."))
-            }
+            else
+                LoadResult.Page(
+                    data = artistsResponse.artists,
+                    prevKey = if (nextPage == 0) null else nextPage - 1,
+                    nextKey = artistsResponse.offset + pageSize
+                )
         } catch (e: Exception) {
             LoadResult.Error(e)
         }
