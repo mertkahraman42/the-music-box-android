@@ -25,8 +25,7 @@ class SearchArtistViewModel(
         viewModelScope.launch {
             val searchQuery = when (event) {
                 is SearchUIEvent.SearchValueChanged -> event.searchQueryText
-                is SearchUIEvent.SearchUnfocused -> event.searchQueryText
-                is SearchUIEvent.SearchCleared -> ""
+                is SearchUIEvent.SearchCancelled -> ""
             }
             _searchUIState.value = _searchUIState.value.copy(
                 searchQuery = searchQuery

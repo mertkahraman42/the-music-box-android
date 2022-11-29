@@ -4,8 +4,7 @@ package com.mertkahraman.themusicbox.ui.searchartist
 
 sealed class SearchUIEvent {
     data class SearchValueChanged(val searchQueryText: String) : SearchUIEvent()
-    data class SearchUnfocused(val searchQueryText: String) : SearchUIEvent()
-    object SearchCleared : SearchUIEvent()
+    object SearchCancelled : SearchUIEvent()
 }
 
 data class SearchUIState(

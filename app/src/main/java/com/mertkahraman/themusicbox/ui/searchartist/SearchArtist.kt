@@ -27,7 +27,7 @@ fun SearchArtist(
         viewModel.getSearchResultStream(searchTextState.searchQuery)?.collectAsLazyPagingItems()
 
     Column {
-        SearchView(searchTextState) {
+        SearchBar(searchTextState) {
             viewModel.onEvent(it)
         }
         LazyColumn {
