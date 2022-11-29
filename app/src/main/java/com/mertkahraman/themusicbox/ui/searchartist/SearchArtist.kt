@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
@@ -25,6 +26,7 @@ fun SearchArtist(
     val searchTextState = viewModel.uiState.value
     val lazyArtistItems: LazyPagingItems<Artist>? =
         viewModel.getSearchResultStream(searchTextState.searchQuery)?.collectAsLazyPagingItems()
+    val localFocus = LocalFocusManager.current
 
     Column {
         SearchBar(searchTextState) {
@@ -57,6 +59,7 @@ fun SearchArtist(
                                 }
                                 else -> {
                                     item {
+                                        localFocus.clearFocus()
                                         ErrorListItem(
                                             modifier = Modifier.fillParentMaxSize(),
                                             errorMessage = loadStateError.error.localizedMessage!!,

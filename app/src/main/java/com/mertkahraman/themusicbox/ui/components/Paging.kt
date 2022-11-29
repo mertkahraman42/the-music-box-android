@@ -53,9 +53,10 @@ fun EmptyListIndicator(
 ) {
     Column(
         modifier = modifier,
-        verticalArrangement = Arrangement.Center,
+        verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+        Spacer(modifier = Modifier.height(20.dp))
         Row {
             Text(
                 text = "No results for '$query'",
