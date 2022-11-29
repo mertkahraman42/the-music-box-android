@@ -20,7 +20,7 @@ interface ArtistDao {
     @Query("SELECT * FROM artists")
     suspend fun getAllArtists(): List<Artist>
 
-    // TODO: Implement pagination
-    @Query("SELECT * FROM artists WHERE name LIKE :nameQuery ")
-    suspend fun searchArtists(nameQuery: String): List<Artist>?
+    // TODO: Change sort type to Score (must add to model)
+    @Query("SELECT * FROM artists WHERE name LIKE :nameQuery ORDER BY name ASC LIMIT :pageSize OFFSET :offset ")
+    suspend fun searchArtists(nameQuery: String, pageSize: Int, offset: Int): List<Artist>?
 }

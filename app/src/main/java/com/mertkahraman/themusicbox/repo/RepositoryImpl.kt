@@ -27,7 +27,7 @@ class RepositoryImpl(
 
     override suspend fun searchArtists(query: String, limit: Int, offset: Int): Artists? {
         var apiArtists: List<Artist> = listOf()
-        val cachedArtists = artistDao.searchArtists(query)
+        val cachedArtists = artistDao.searchArtists("$query%", limit, offset)
         try {
             val result = runCatching {
                 apiService.searchArtists(query, limit, offset)
