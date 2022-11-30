@@ -40,7 +40,7 @@ fun TmbNavHost(
                     artistMbid = artistMbid
                 )
             } ?: run {
-                ArtistLoadFailure()
+                ArtistLoadFailure(null)
             }
         }
     }

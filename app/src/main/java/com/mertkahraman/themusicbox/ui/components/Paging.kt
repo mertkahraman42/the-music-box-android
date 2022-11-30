@@ -82,7 +82,7 @@ fun EmptyListIndicator(
 fun ErrorListItem(
     modifier: Modifier = Modifier,
     errorMessage: String,
-    onRetry: () -> Unit
+    onRetry: (() -> Unit)?
 ) {
     Row(
         modifier = modifier.padding(16.dp),
@@ -96,8 +96,10 @@ fun ErrorListItem(
             style = MaterialTheme.typography.h6,
             color = Color.Red
         )
-        OutlinedButton(onRetry) {
-            Text(text = "Retry")
+        onRetry?.let {
+            OutlinedButton(it) {
+                Text(text = "Retry")
+            }
         }
     }
 }
