@@ -1,4 +1,4 @@
-package com.mertkahraman.themusicbox.ui.searchartist
+package com.mertkahraman.themusicbox.ui.artist.search
 
 // Contains all Search and Search Focus related objects
 
