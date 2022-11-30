@@ -1,5 +1,6 @@
 package com.mertkahraman.themusicbox.ui.searchartist
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -10,8 +11,14 @@ import com.mertkahraman.themusicbox.data.model.Artist
 
 // TODO: Revise UI
 @Composable
-fun ArtistItem(artist: Artist) {
-    Column {
+fun ArtistItem(
+    artist: Artist,
+    onItemClick: (Artist) -> Unit = {},
+) {
+    Column(
+        modifier = Modifier
+            .clickable { onItemClick(artist) }
+    ) {
         Row(
             modifier = Modifier
                 .padding(start = 16.dp, top = 16.dp, end = 16.dp)

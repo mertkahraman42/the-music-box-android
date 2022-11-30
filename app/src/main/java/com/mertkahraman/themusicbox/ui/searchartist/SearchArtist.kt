@@ -36,7 +36,10 @@ fun SearchArtist(
         LazyColumn {
             if (lazyArtistItems != null) {
                 items(lazyArtistItems) { artist ->
-                    ArtistItem(artist = artist!!)
+                    ArtistItem(
+                        artist = artist!!,
+                        onSelectArtist
+                    )
                 }
 
                 lazyArtistItems.apply {
