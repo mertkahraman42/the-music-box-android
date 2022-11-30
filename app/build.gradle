@@ -81,6 +81,11 @@ dependencies {
     implementation "androidx.paging:paging-compose:1.0.0-alpha17"
     debugImplementation "androidx.compose.ui:ui-tooling"
 
+    // Navigation
+    implementation "androidx.navigation:navigation-fragment-ktx:$rootProject.nav_version"
+    implementation "androidx.navigation:navigation-ui-ktx:$rootProject.nav_version"
+    implementation "androidx.navigation:navigation-compose:$rootProject.nav_version"
+
     // Test
     testImplementation 'junit:junit:4.13.2'
     testImplementation "io.insert-koin:koin-test-junit4:$koin_version"
