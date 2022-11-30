@@ -14,7 +14,7 @@ import com.mertkahraman.themusicbox.repo.paging.ArtistSource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 
-class SearchArtistViewModel(
+class ArtistSearchViewModel(
     private val repository: Repository
 ) : ViewModel() {
 

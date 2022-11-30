@@ -6,7 +6,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.mertkahraman.themusicbox.ui.artist.search.SearchArtist
+import com.mertkahraman.themusicbox.ui.artist.search.ArtistSearch
 import com.mertkahraman.themusicbox.util.TAG
 
 @Composable
@@ -23,7 +23,7 @@ fun TmbNavHost(
         composable(
             route = SearchArtist.route,
         ) {
-            SearchArtist(
+            ArtistSearch(
                 onSelectArtist = { artist ->
                     navController.navigateToArtistDetails(artist.mbid)
                 }

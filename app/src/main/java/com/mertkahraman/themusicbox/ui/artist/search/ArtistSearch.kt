@@ -20,8 +20,8 @@ import org.koin.androidx.compose.getViewModel
 // This assignment project has a narrow scope and we won't be using this page to search anything else,
 // However, this could be easily extended to something like SearchEntity to search all sorts of MB entities.
 @Composable
-fun SearchArtist(
-    viewModel: SearchArtistViewModel = getViewModel(),
+fun ArtistSearch(
+    viewModel: ArtistSearchViewModel = getViewModel(),
     onSelectArtist: (Artist) -> Unit = {},
 ) {
     val searchTextState = viewModel.uiState.value
