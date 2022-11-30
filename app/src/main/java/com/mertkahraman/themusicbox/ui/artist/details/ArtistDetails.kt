@@ -14,14 +14,17 @@ import com.mertkahraman.themusicbox.data.model.Artist
 import com.mertkahraman.themusicbox.ui.components.HeadlineText
 import com.mertkahraman.themusicbox.ui.components.SupportingText
 import com.mertkahraman.themusicbox.ui.components.TitleText
+import org.koin.androidx.compose.getViewModel
+import org.koin.core.parameter.parametersOf
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun ArtistDetails(artistMbid: String?) {
-    if (artistMbid == null) {
-        ArtistLoadFailure()
-        return
-    }
+fun ArtistDetails(
+    artistMbid: String,
+    viewModel: ArtistDetailsViewModel = getViewModel(
+        parameters = { parametersOf(artistMbid) }
+    )
+) {
     // TODO: Replace Dummy Artist with actual implementation
     val artist = Artist(
         mbid = "123-123-123-123",
@@ -130,7 +133,7 @@ fun ArtistLoadFailure() {
 fun ArtistDetailsPreview() {
     Surface(color = MaterialTheme.colors.background) {
         ArtistDetails(
-            artistMbid = null
+            artistMbid = ""
         )
     }
 }

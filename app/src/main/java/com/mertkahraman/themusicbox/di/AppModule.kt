@@ -3,6 +3,7 @@ package com.mertkahraman.themusicbox.di
 import com.mertkahraman.themusicbox.data.database.TmbDatabase
 import com.mertkahraman.themusicbox.repo.Repository
 import com.mertkahraman.themusicbox.repo.RepositoryImpl
+import com.mertkahraman.themusicbox.ui.artist.details.ArtistDetailsViewModel
 import com.mertkahraman.themusicbox.ui.artist.search.ArtistSearchViewModel
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -21,4 +22,5 @@ fun appModule() = module {
 
     // ViewModels
     viewModel { ArtistSearchViewModel(get()) }
+    viewModel { (artistMbid: String) -> ArtistDetailsViewModel(get(), artistMbid) }
 }

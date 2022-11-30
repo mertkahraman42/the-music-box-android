@@ -7,6 +7,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.mertkahraman.themusicbox.nav.ArtistsDestination.Companion.KEY_MBID
 import com.mertkahraman.themusicbox.ui.artist.details.ArtistDetails
+import com.mertkahraman.themusicbox.ui.artist.details.ArtistLoadFailure
 import com.mertkahraman.themusicbox.ui.artist.search.ArtistSearch
 
 @Composable
@@ -34,10 +35,13 @@ fun TmbNavHost(
             route = ArtistDetails.routeWithArgs(),
             arguments = ArtistDetails.arguments,
         ) { navBackStackEntry ->
-            val artistMbid = navBackStackEntry.arguments?.getString(KEY_MBID)
-            ArtistDetails(
-                artistMbid = artistMbid
-            )
+            navBackStackEntry.arguments?.getString(KEY_MBID)?.let { artistMbid ->
+                ArtistDetails(
+                    artistMbid = artistMbid
+                )
+            } ?: run {
+                ArtistLoadFailure()
+            }
         }
     }
 }
