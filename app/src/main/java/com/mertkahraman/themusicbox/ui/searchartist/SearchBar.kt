@@ -41,6 +41,12 @@ fun SearchBar(
                 onSearchEvent(SearchUIEvent.SearchCancelled)
             }
         },
+        placeholder = {
+            Text(
+                text = "Search artists",
+                color = MaterialTheme.colors.onPrimary
+            )
+        },
         modifier = Modifier
             .fillMaxWidth()
             .focusRequester(focusRequester),
