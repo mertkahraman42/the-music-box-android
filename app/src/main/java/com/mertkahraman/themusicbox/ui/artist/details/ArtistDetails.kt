@@ -106,10 +106,9 @@ fun ArtistDetails(
                             )
                         }
                     )
-
-                    // List of Release groups (albums)
                 }
             }
+            // List of Release groups (albums)
         }
     }
 }
