@@ -17,5 +17,5 @@ class ReleaseGroups(
     val releaseGroups: List<ReleaseGroup>,
     offset: Int,
     @SerializedName("release-group-count")
-    val count: Int
+    val count: Int? = null
 ) : PagedResponse(offset)
