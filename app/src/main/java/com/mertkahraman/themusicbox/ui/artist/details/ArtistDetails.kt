@@ -7,6 +7,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.TrendingUp
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.mertkahraman.themusicbox.data.model.Artist
@@ -16,7 +17,18 @@ import com.mertkahraman.themusicbox.ui.components.TitleText
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun ArtistDetails(artist: Artist) {
+fun ArtistDetails(artistMbid: String?) {
+    if (artistMbid == null) {
+        ArtistLoadFailure()
+        return
+    }
+    // TODO: Replace Dummy Artist with actual implementation
+    val artist = Artist(
+        mbid = "123-123-123-123",
+        name = "Pink Floyd",
+        mbScore = 95
+    )
+
     LazyColumn(
         modifier = Modifier.padding(
             top = 50.dp,
@@ -98,16 +110,27 @@ fun ArtistDetails(artist: Artist) {
     }
 }
 
+@Composable
+fun ArtistLoadFailure() {
+    Spacer(modifier = Modifier.height(20.dp))
+    Row {
+        Text(
+            text = "Cannot load this artist at this time.\n" +
+                "Please try again.",
+            modifier = Modifier.weight(1f),
+            style = MaterialTheme.typography.h6,
+            color = MaterialTheme.colors.primary,
+            textAlign = TextAlign.Center
+        )
+    }
+}
+
 @Preview
 @Composable
 fun ArtistDetailsPreview() {
     Surface(color = MaterialTheme.colors.background) {
         ArtistDetails(
-            artist = Artist(
-                mbid = "123-123-123-123",
-                name = "Pink Floyd",
-                mbScore = 95
-            )
+            artistMbid = null
         )
     }
 }
