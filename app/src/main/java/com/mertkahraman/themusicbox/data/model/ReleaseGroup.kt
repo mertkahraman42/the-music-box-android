@@ -8,7 +8,8 @@ class ReleaseGroup(
     mbid: String,
     val name: String,
     @SerializedName("first-release-date")
-    val firstReleaseDate: String
+    val firstReleaseDate: String,
+    @Transient val ownerArtistMbid: String
 ) : MBEntity(mbid) {
 
     // Overriding equals for testing
