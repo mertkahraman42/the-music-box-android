@@ -21,7 +21,8 @@ import org.koin.androidx.compose.getViewModel
 // However, this could be easily extended to something like SearchEntity to search all sorts of MB entities.
 @Composable
 fun SearchArtist(
-    viewModel: SearchArtistViewModel = getViewModel()
+    viewModel: SearchArtistViewModel = getViewModel(),
+    onSelectArtist: (Artist) -> Unit = {},
 ) {
     val searchTextState = viewModel.uiState.value
     val lazyArtistItems: LazyPagingItems<Artist>? =
