@@ -12,15 +12,19 @@ class RepositoryImpl(
     private val artistDao: ArtistDao,
 ) : Repository {
 
-    override suspend fun getArtist(artistMbid: String): Artist? {
+    override suspend fun getArtist(artistMbid: String): Artist {
         val cachedArtist = artistDao.getArtist(artistMbid)
-        val apiArtist: Artist
+        var apiArtist: Artist
         try {
             apiArtist = apiService.getArtist(artistMbid)
             artistDao.saveArtist(apiArtist)
         } catch (error: Throwable) {
             Log.e(TAG, error.toString())
-            return cachedArtist
+            if (cachedArtist != null) {
+                apiArtist = cachedArtist
+            } else {
+                throw(error)
+            }
         }
         return apiArtist
     }

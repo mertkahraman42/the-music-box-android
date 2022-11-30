@@ -5,7 +5,7 @@ import com.mertkahraman.themusicbox.repo.paging.Artists
 
 interface Repository {
 
-    suspend fun getArtist(artistMbid: String): Artist?
+    suspend fun getArtist(artistMbid: String): Artist
 
     suspend fun searchArtists(
         query: String,
