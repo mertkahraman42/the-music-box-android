@@ -1,10 +1,9 @@
 package com.mertkahraman.themusicbox.ui.components
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.CircularProgressIndicator
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.OutlinedButton
-import androidx.compose.material.Text
+import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Minimize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -101,5 +100,28 @@ fun ErrorListItem(
                 Text(text = "Retry")
             }
         }
+    }
+}
+
+/*
+ * Use when there's no results from repository
+ */
+@Composable
+fun EndOfListIndicator(
+    modifier: Modifier = Modifier,
+) {
+    Column(
+        modifier = modifier,
+        verticalArrangement = Arrangement.Top,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Icon(
+            Icons.Default.Minimize,
+            contentDescription = "",
+            tint = Color.LightGray,
+            modifier = Modifier
+                .size(24.dp)
+                .padding(end = 8.dp)
+        )
     }
 }
