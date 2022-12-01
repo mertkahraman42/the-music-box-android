@@ -1,16 +1,19 @@
 package com.mertkahraman.themusicbox.ui.artist.details
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.Divider
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.mertkahraman.themusicbox.data.model.artist.getArtistDetailsFor
 import com.mertkahraman.themusicbox.ui.components.ErrorListItem
 import com.mertkahraman.themusicbox.ui.components.FullscreenSpinner
+import com.mertkahraman.themusicbox.ui.components.HeadlineText
 import com.mertkahraman.themusicbox.ui.components.TitleText
 import com.mertkahraman.themusicbox.ui.releasegroup.ReleaseGroupList
 import org.koin.androidx.compose.getViewModel
@@ -36,17 +39,31 @@ fun ArtistDetails(
         Column(
             modifier = Modifier.padding(
                 top = 50.dp,
-                start = 20.dp,
-                end = 10.dp
             )
         ) {
-            Row {
-                TitleText(text = artist.name)
+            Column(
+                modifier = Modifier.padding(
+                    start = 20.dp,
+                    end = 10.dp
+                )
+            ) {
+                Row(
+                    modifier = Modifier.padding(bottom = 16.dp)
+                ) {
+                    TitleText(text = artist.name)
+                }
+                ArtistBio(getArtistDetailsFor(artist))
             }
 
-            ArtistBio(getArtistDetailsFor(artist))
-
-            Row {
+            HeadlineText(
+                text = "Albums",
+                modifier = Modifier.padding(
+                    top = 30.dp,
+                    start = 20.dp
+                )
+            )
+            Divider(color = Color.LightGray)
+            Row(modifier = Modifier.padding(top = 16.dp)) {
                 // List of Release groups (albums)
                 ReleaseGroupList(artistMbid)
             }

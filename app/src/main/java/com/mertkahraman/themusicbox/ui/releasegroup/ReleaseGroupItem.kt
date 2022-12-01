@@ -21,7 +21,7 @@ fun ReleaseGroupItem(
     ) {
         Row(
             modifier = Modifier
-                .padding(start = 16.dp, top = 16.dp, end = 16.dp)
+                .padding(start = 20.dp, top = 4.dp, bottom = 4.dp, end = 4.dp)
                 .fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically

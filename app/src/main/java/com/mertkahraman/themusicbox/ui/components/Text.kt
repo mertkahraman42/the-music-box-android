@@ -35,7 +35,7 @@ fun HeadlineText(
     text: String,
     modifier: Modifier = Modifier,
     maxLines: Int = 2,
-    color: Color = MaterialTheme.colors.secondary,
+    color: Color = MaterialTheme.colors.onBackground,
     style: TextStyle = MaterialTheme.typography.subtitle1,
     fontWeight: FontWeight = FontWeight.SemiBold,
     textAlign: TextAlign? = null,

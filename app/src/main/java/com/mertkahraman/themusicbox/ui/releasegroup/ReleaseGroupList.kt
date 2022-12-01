@@ -3,6 +3,7 @@ package com.mertkahraman.themusicbox.ui.releasegroup
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material.Divider
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.paging.LoadState
@@ -33,6 +34,7 @@ fun ReleaseGroupList(
                         releaseGroup = releaseGroup!!,
                         onSelectReleaseGroup
                     )
+                    Divider()
                 }
 
                 lazyReleaseGroupItems.apply {
