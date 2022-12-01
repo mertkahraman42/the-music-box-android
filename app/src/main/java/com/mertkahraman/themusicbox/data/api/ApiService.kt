@@ -26,7 +26,6 @@ interface ApiService {
     @GET("release-group/")
     suspend fun browseReleaseGroupsForArtist(
         @Query("artist") artistMbid: String,
-        @Query("type") query: String = "album|ep",
         @Query("limit") limit: Int,
         @Query("offset") offset: Int,
     ): ReleaseGroups

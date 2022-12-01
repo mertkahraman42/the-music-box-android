@@ -73,7 +73,7 @@ class RepositoryImpl(
         val cachedReleaseGroups = releaseGroupDao.browseReleaseGroupsForArtist(ownerArtistMbid, limit, offset)
         try {
             val result = runCatching {
-                apiService.browseReleaseGroupsForArtist(ownerArtistMbid, "album|ep", limit, offset)
+                apiService.browseReleaseGroupsForArtist(ownerArtistMbid, limit, offset)
             }
             result.onSuccess { pagedResponse ->
                 Log.d(TAG, "Page ${pagedResponse.offset} received")

@@ -10,8 +10,17 @@ class ReleaseGroup(
     val title: String,
     @SerializedName("first-release-date")
     val firstReleaseDate: String,
+    @SerializedName("primary-type")
+    val primaryType: PrimaryType?,
+
 ) : MBEntity(mbid) {
 
+    enum class PrimaryType(val value: String) {
+        @SerializedName("Album")
+        ALBUM("Album"),
+        @SerializedName("Single")
+        SINGLE("Single"),
+    }
     // Transient (not marking with annotation as there's a use case for Room)
     var ownerArtistMbid: String? = null
 
