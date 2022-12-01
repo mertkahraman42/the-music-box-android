@@ -57,6 +57,5 @@ fun getArtistDetailsFor(artist: Artist): List<ArtistDetail> {
             )
         )
     }
-
     return artistDetails
 }

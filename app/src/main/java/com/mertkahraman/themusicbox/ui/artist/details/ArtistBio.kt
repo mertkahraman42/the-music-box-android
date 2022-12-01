@@ -3,7 +3,6 @@ package com.mertkahraman.themusicbox.ui.artist.details
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -15,7 +14,6 @@ import androidx.compose.ui.unit.dp
 import com.mertkahraman.themusicbox.data.model.artist.*
 import com.mertkahraman.themusicbox.ui.components.HeadlineText
 
-@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun ArtistBio(artistDetails: List<ArtistDetail>) {
     LazyRow(
@@ -51,7 +49,7 @@ fun ArtistBioItem(artistDetail: ArtistDetail) {
                 color = MaterialTheme.colors.onBackground,
                 textAlign = TextAlign.Center,
 
-            )
+                )
         }
     }
 }
