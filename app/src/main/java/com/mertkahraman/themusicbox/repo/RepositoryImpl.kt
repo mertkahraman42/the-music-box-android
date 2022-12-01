@@ -80,7 +80,7 @@ class RepositoryImpl(
                 pagedResponse.releaseGroups.map { releaseGroup ->
                     releaseGroup.ownerArtistMbid = ownerArtistMbid
                     Log.d(TAG, "Fetched releaseGroup browse results:")
-                    Log.d(TAG, "ReleaseGroup Name: ${releaseGroup.name}")
+                    Log.d(TAG, "ReleaseGroup Name: ${releaseGroup.title}")
                 }
                 releaseGroupDao.saveReleaseGroups(pagedResponse.releaseGroups)
                 apiReleaseGroups = pagedResponse.releaseGroups

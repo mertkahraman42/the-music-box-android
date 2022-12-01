@@ -14,8 +14,10 @@ class Artists(
 ) : PagedResponse(offset)
 
 class ReleaseGroups(
+    @SerializedName("release-groups")
     val releaseGroups: List<ReleaseGroup>,
-    offset: Int,
+    @SerializedName("release-group-offset")
+    val releaseGroupOffset: Int,
     @SerializedName("release-group-count")
     val count: Int? = null
-) : PagedResponse(offset)
+) : PagedResponse(offset = releaseGroupOffset)

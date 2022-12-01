@@ -5,11 +5,14 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.mertkahraman.themusicbox.data.database.dao.ArtistDao
+import com.mertkahraman.themusicbox.data.database.dao.ReleaseGroupDao
 import com.mertkahraman.themusicbox.data.model.Artist
+import com.mertkahraman.themusicbox.data.model.ReleaseGroup
 
-@Database(entities = [Artist::class], version = 1)
+@Database(entities = [Artist::class, ReleaseGroup::class], version = 1)
 abstract class TmbDatabase : RoomDatabase() {
     abstract fun artistDao(): ArtistDao
+    abstract fun releaseGroupDao(): ReleaseGroupDao
 
     companion object {
         fun create(context: Context): TmbDatabase {

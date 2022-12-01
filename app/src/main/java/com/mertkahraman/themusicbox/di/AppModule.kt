@@ -5,6 +5,7 @@ import com.mertkahraman.themusicbox.repo.Repository
 import com.mertkahraman.themusicbox.repo.RepositoryImpl
 import com.mertkahraman.themusicbox.ui.artist.details.ArtistDetailsViewModel
 import com.mertkahraman.themusicbox.ui.artist.search.ArtistSearchViewModel
+import com.mertkahraman.themusicbox.ui.releasegroup.ReleaseGroupViewModel
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
@@ -16,11 +17,13 @@ fun appModule() = module {
 
     // DAO
     single { get<TmbDatabase>().artistDao() }
+    single { get<TmbDatabase>().releaseGroupDao() }
 
     // Repository
-    single { RepositoryImpl(get(), get()) as Repository }
+    single { RepositoryImpl(get(), get(), get()) as Repository }
 
     // ViewModels
     viewModel { ArtistSearchViewModel(get()) }
     viewModel { (artistMbid: String) -> ArtistDetailsViewModel(get(), artistMbid) }
+    viewModel { ReleaseGroupViewModel(get()) }
 }
