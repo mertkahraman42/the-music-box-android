@@ -14,7 +14,9 @@ class Artist(
     val type: String?,
     @Embedded
     @SerializedName("life-span")
-    val lifeSpan: LifeSpan?
+    val lifeSpan: LifeSpan?,
+    @Embedded
+    val area: Area?
 ) : MBEntity(mbid) {
 
     // Overriding equals for testing
