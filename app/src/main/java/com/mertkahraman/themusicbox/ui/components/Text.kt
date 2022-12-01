@@ -34,10 +34,10 @@ fun TitleText(
 fun HeadlineText(
     text: String,
     modifier: Modifier = Modifier,
-    maxLines: Int = 1,
+    maxLines: Int = 2,
     color: Color = MaterialTheme.colors.secondary,
-    style: TextStyle = MaterialTheme.typography.h6,
-    fontWeight: FontWeight = FontWeight.Normal,
+    style: TextStyle = MaterialTheme.typography.subtitle1,
+    fontWeight: FontWeight = FontWeight.SemiBold,
     textAlign: TextAlign? = null,
 ) {
     Text(
@@ -58,7 +58,7 @@ fun SupportingText(
     maxLines: Int = 1,
     color: Color = MaterialTheme.colors.secondary,
     style: TextStyle = MaterialTheme.typography.subtitle1,
-    fontWeight: FontWeight = FontWeight.SemiBold,
+    fontWeight: FontWeight = FontWeight.Normal,
     textAlign: TextAlign? = null,
 ) {
     Text(

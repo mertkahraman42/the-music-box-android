@@ -3,15 +3,15 @@ package com.mertkahraman.themusicbox.data.model.artist
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CalendarMonth
 import androidx.compose.material.icons.filled.Group
+import androidx.compose.material.icons.filled.Map
 import androidx.compose.material.icons.filled.Person
-import androidx.compose.material.icons.filled.TrendingUp
 import androidx.compose.ui.graphics.vector.ImageVector
 import java.util.*
 
 data class ArtistDetail(
     val icon: ImageVector,
-    val title: String,
-    val detail: String?
+    val title: String?,
+    val detail: String
 )
 
 fun getArtistDetailsFor(artist: Artist): List<ArtistDetail> {
@@ -28,8 +28,8 @@ fun getArtistDetailsFor(artist: Artist): List<ArtistDetail> {
         artistDetails.add(
             ArtistDetail(
                 icon,
-                it.capitalize(Locale.ROOT),
-                null
+                null,
+                it.capitalize(Locale.ROOT)
             )
         )
     }
@@ -45,15 +45,15 @@ fun getArtistDetailsFor(artist: Artist): List<ArtistDetail> {
             )
         )
     }
-    // Score
-    artist.mbScore.let { score ->
-        val icon = Icons.Default.TrendingUp
+    // Area
+    artist.area?.areaName?.let { areaName ->
+        val icon = Icons.Default.Map
 
         artistDetails.add(
             ArtistDetail(
                 icon,
-                "Score",
-                score.toString()
+                "Area",
+                areaName
             )
         )
     }

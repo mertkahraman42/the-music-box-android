@@ -1,21 +1,21 @@
 package com.mertkahraman.themusicbox.ui.artist.details
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
-import androidx.compose.material.*
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.mertkahraman.themusicbox.data.model.artist.getArtistDetailsFor
-import com.mertkahraman.themusicbox.ui.components.*
+import com.mertkahraman.themusicbox.ui.components.ErrorListItem
+import com.mertkahraman.themusicbox.ui.components.FullscreenSpinner
+import com.mertkahraman.themusicbox.ui.components.TitleText
 import com.mertkahraman.themusicbox.ui.releasegroup.ReleaseGroupList
 import org.koin.androidx.compose.getViewModel
 import org.koin.core.parameter.parametersOf
 
-@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun ArtistDetails(
     artistMbid: String,
@@ -33,55 +33,19 @@ fun ArtistDetails(
             viewModel.fetchArtist()
         }
     } else {
-        Column {
+        Column(
+            modifier = Modifier.padding(
+                top = 50.dp,
+                start = 20.dp,
+                end = 10.dp
+            )
+        ) {
             Row {
-                LazyColumn(
-                    modifier = Modifier.padding(
-                        top = 50.dp,
-                        start = 20.dp,
-                        end = 10.dp
-                    )
-                ) {
-                    item {
-                        Column(
-                            verticalArrangement = Arrangement.spacedBy(10.dp)
-                        ) {
-                            // Title
-                            TitleText(text = artist.name)
-                        }
-                    }
-                    items(
-                        getArtistDetailsFor(artist)
-                    ) { item ->
-                        ListItem(
-                            text = {
-                                SupportingText(
-                                    text = item.title,
-                                    color = MaterialTheme.colors.primary
-                                )
-                            },
-                            secondaryText = {
-                                item.detail?.let {
-                                    HeadlineText(
-                                        text = it,
-                                        color = MaterialTheme.colors.primary
-                                    )
-                                }
-                            },
-                            icon = {
-                                Icon(
-                                    item.icon,
-                                    contentDescription = "",
-                                    tint = MaterialTheme.colors.primary,
-                                    modifier = Modifier
-                                        .size(40.dp)
-                                        .padding(end = 8.dp)
-                                )
-                            }
-                        )
-                    }
-                }
+                TitleText(text = artist.name)
             }
+
+            ArtistBio(getArtistDetailsFor(artist))
+
             Row {
                 // List of Release groups (albums)
                 ReleaseGroupList(artistMbid)
