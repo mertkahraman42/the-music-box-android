@@ -8,6 +8,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 
 @Composable
 fun TitleText(
@@ -39,6 +40,7 @@ fun HeadlineText(
     style: TextStyle = MaterialTheme.typography.subtitle1,
     fontWeight: FontWeight = FontWeight.SemiBold,
     textAlign: TextAlign? = null,
+    overflow: TextOverflow = TextOverflow.Ellipsis,
 ) {
     Text(
         modifier = modifier,
@@ -47,7 +49,8 @@ fun HeadlineText(
         style = style,
         fontWeight = fontWeight,
         textAlign = textAlign,
-        maxLines = maxLines
+        maxLines = maxLines,
+        overflow = overflow
     )
 }
 
@@ -60,6 +63,7 @@ fun SupportingText(
     style: TextStyle = MaterialTheme.typography.subtitle1,
     fontWeight: FontWeight = FontWeight.Normal,
     textAlign: TextAlign? = null,
+    overflow: TextOverflow = TextOverflow.Ellipsis,
 ) {
     Text(
         modifier = modifier,
@@ -68,6 +72,7 @@ fun SupportingText(
         style = style,
         fontWeight = fontWeight,
         textAlign = textAlign,
-        maxLines = maxLines
+        maxLines = maxLines,
+        overflow = overflow
     )
 }

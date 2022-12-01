@@ -49,7 +49,7 @@ fun ArtistBioItem(artistDetail: ArtistDetail) {
                 color = MaterialTheme.colors.onBackground,
                 textAlign = TextAlign.Center,
 
-                )
+            )
         }
     }
 }
