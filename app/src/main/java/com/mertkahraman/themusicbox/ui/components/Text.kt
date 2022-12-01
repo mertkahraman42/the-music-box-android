@@ -16,9 +16,10 @@ fun TitleText(
     modifier: Modifier = Modifier,
     maxLines: Int = 1,
     color: Color = MaterialTheme.colors.primary,
-    style: TextStyle = MaterialTheme.typography.h3,
-    fontWeight: FontWeight = FontWeight.Bold,
+    style: TextStyle = MaterialTheme.typography.h4,
+    fontWeight: FontWeight = FontWeight.SemiBold,
     textAlign: TextAlign? = null,
+    overflow: TextOverflow = TextOverflow.Ellipsis
 ) {
     Text(
         modifier = modifier,
@@ -28,6 +29,7 @@ fun TitleText(
         fontWeight = fontWeight,
         textAlign = textAlign,
         maxLines = maxLines,
+        overflow = overflow
     )
 }
 
