@@ -11,6 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.mertkahraman.themusicbox.ui.components.*
+import com.mertkahraman.themusicbox.ui.releasegroup.ReleaseGroupList
 import org.koin.androidx.compose.getViewModel
 import org.koin.core.parameter.parametersOf
 
@@ -32,83 +33,90 @@ fun ArtistDetails(
             viewModel.fetchArtist()
         }
     } else {
-        LazyColumn(
-            modifier = Modifier.padding(
-                top = 50.dp,
-                start = 20.dp,
-                end = 10.dp
-            )
-        ) {
-            item {
-                Column(
-                    verticalArrangement = Arrangement.spacedBy(10.dp)
+        Column {
+            Row {
+                LazyColumn(
+                    modifier = Modifier.padding(
+                        top = 50.dp,
+                        start = 20.dp,
+                        end = 10.dp
+                    )
                 ) {
-                    // Title
-                    TitleText(text = artist.name)
+                    item {
+                        Column(
+                            verticalArrangement = Arrangement.spacedBy(10.dp)
+                        ) {
+                            // Title
+                            TitleText(text = artist.name)
 
-                    // Detail - Rows
-                    // Detail info can be:
-                    // Type: Group / Individual
-                    // Years: Founded / (if) Dissolved
-                    // Score: MB Score
-                    // Bio
-                    // Genres: Pills view?
+                            // Detail - Rows
+                            // Detail info can be:
+                            // Type: Group / Individual
+                            // Years: Founded / (if) Dissolved
+                            // Score: MB Score
+                            // Bio
+                            // Genres: Pills view?
 
-                    // TODO: Replace Dummy rows with a more dynamic style
-                    // Dummy info 1
-                    ListItem(
-                        text = {
-                            SupportingText(
-                                text = "Score",
-                                color = MaterialTheme.colors.primary
+                            // TODO: Replace Dummy rows with a more dynamic style
+                            // Dummy info 1
+                            ListItem(
+                                text = {
+                                    SupportingText(
+                                        text = "Score",
+                                        color = MaterialTheme.colors.primary
+                                    )
+                                },
+                                secondaryText = {
+                                    HeadlineText(
+                                        text = artist.mbScore.toString(),
+                                        color = MaterialTheme.colors.primary
+                                    )
+                                },
+                                icon = {
+                                    Icon(
+                                        Icons.Default.TrendingUp,
+                                        contentDescription = "",
+                                        tint = MaterialTheme.colors.primary,
+                                        modifier = Modifier
+                                            .size(40.dp)
+                                            .padding(end = 8.dp)
+                                    )
+                                }
                             )
-                        },
-                        secondaryText = {
-                            HeadlineText(
-                                text = artist.mbScore.toString(),
-                                color = MaterialTheme.colors.primary
-                            )
-                        },
-                        icon = {
-                            Icon(
-                                Icons.Default.TrendingUp,
-                                contentDescription = "",
-                                tint = MaterialTheme.colors.primary,
-                                modifier = Modifier
-                                    .size(40.dp)
-                                    .padding(end = 8.dp)
+
+                            // Dummy info 2
+                            ListItem(
+                                text = {
+                                    SupportingText(
+                                        text = "Score",
+                                        color = MaterialTheme.colors.primary
+                                    )
+                                },
+                                secondaryText = {
+                                    HeadlineText(
+                                        text = artist.mbScore.toString(),
+                                        color = MaterialTheme.colors.primary
+                                    )
+                                },
+                                icon = {
+                                    Icon(
+                                        Icons.Default.TrendingUp,
+                                        contentDescription = "",
+                                        tint = MaterialTheme.colors.primary,
+                                        modifier = Modifier
+                                            .size(40.dp)
+                                            .padding(end = 8.dp)
+                                    )
+                                }
                             )
                         }
-                    )
-
-                    // Dummy info 2
-                    ListItem(
-                        text = {
-                            SupportingText(
-                                text = "Score",
-                                color = MaterialTheme.colors.primary
-                            )
-                        },
-                        secondaryText = {
-                            HeadlineText(
-                                text = artist.mbScore.toString(),
-                                color = MaterialTheme.colors.primary
-                            )
-                        },
-                        icon = {
-                            Icon(
-                                Icons.Default.TrendingUp,
-                                contentDescription = "",
-                                tint = MaterialTheme.colors.primary,
-                                modifier = Modifier
-                                    .size(40.dp)
-                                    .padding(end = 8.dp)
-                            )
-                        }
-                    )
+                    }
                 }
             }
-            // List of Release groups (albums)
+            Row {
+                // List of Release groups (albums)
+                ReleaseGroupList(artistMbid)
+            }
         }
     }
 }
