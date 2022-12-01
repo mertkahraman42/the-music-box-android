@@ -5,7 +5,7 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.mertkahraman.themusicbox.data.model.Artist
+import com.mertkahraman.themusicbox.data.model.artist.Artist
 import com.mertkahraman.themusicbox.repo.Repository
 import com.mertkahraman.themusicbox.util.TAG
 import kotlinx.coroutines.flow.MutableStateFlow

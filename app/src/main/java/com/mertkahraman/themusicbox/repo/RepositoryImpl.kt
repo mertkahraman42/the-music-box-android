@@ -4,8 +4,8 @@ import android.util.Log
 import com.mertkahraman.themusicbox.data.api.ApiService
 import com.mertkahraman.themusicbox.data.database.dao.ArtistDao
 import com.mertkahraman.themusicbox.data.database.dao.ReleaseGroupDao
-import com.mertkahraman.themusicbox.data.model.Artist
 import com.mertkahraman.themusicbox.data.model.ReleaseGroup
+import com.mertkahraman.themusicbox.data.model.artist.Artist
 import com.mertkahraman.themusicbox.repo.paging.Artists
 import com.mertkahraman.themusicbox.repo.paging.ReleaseGroups
 import com.mertkahraman.themusicbox.util.TAG

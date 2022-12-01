@@ -1,6 +1,6 @@
 package com.mertkahraman.themusicbox.data.api
 
-import com.mertkahraman.themusicbox.data.model.Artist
+import com.mertkahraman.themusicbox.data.model.artist.Artist
 import com.mertkahraman.themusicbox.repo.paging.Artists
 import com.mertkahraman.themusicbox.repo.paging.ReleaseGroups
 import retrofit2.http.GET

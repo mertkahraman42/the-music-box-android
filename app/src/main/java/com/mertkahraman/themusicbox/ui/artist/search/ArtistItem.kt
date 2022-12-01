@@ -7,7 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.mertkahraman.themusicbox.data.model.Artist
+import com.mertkahraman.themusicbox.data.model.artist.Artist
 
 // TODO: Revise UI
 @Composable

@@ -2,6 +2,7 @@ package com.mertkahraman.themusicbox.data.model
 
 import androidx.room.Entity
 import com.google.gson.annotations.SerializedName
+import com.mertkahraman.themusicbox.data.model.artist.Artist
 
 @Entity(tableName = "release_group")
 class ReleaseGroup(

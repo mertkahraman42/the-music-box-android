@@ -6,7 +6,7 @@ import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.mertkahraman.themusicbox.data.database.TmbDatabase
 import com.mertkahraman.themusicbox.data.database.dao.ArtistDao
-import com.mertkahraman.themusicbox.data.model.Artist
+import com.mertkahraman.themusicbox.data.model.artist.Artist
 import junit.framework.TestCase.assertEquals
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking

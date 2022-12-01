@@ -2,14 +2,14 @@ package com.mertkahraman.themusicbox.ui.artist.details
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.TrendingUp
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.mertkahraman.themusicbox.data.model.artist.getArtistDetailsFor
 import com.mertkahraman.themusicbox.ui.components.*
 import com.mertkahraman.themusicbox.ui.releasegroup.ReleaseGroupList
 import org.koin.androidx.compose.getViewModel
@@ -48,68 +48,37 @@ fun ArtistDetails(
                         ) {
                             // Title
                             TitleText(text = artist.name)
-
-                            // Detail - Rows
-                            // Detail info can be:
-                            // Type: Group / Individual
-                            // Years: Founded / (if) Dissolved
-                            // Score: MB Score
-                            // Bio
-                            // Genres: Pills view?
-
-                            // TODO: Replace Dummy rows with a more dynamic style
-                            // Dummy info 1
-                            ListItem(
-                                text = {
-                                    SupportingText(
-                                        text = "Score",
-                                        color = MaterialTheme.colors.primary
-                                    )
-                                },
-                                secondaryText = {
-                                    HeadlineText(
-                                        text = artist.mbScore.toString(),
-                                        color = MaterialTheme.colors.primary
-                                    )
-                                },
-                                icon = {
-                                    Icon(
-                                        Icons.Default.TrendingUp,
-                                        contentDescription = "",
-                                        tint = MaterialTheme.colors.primary,
-                                        modifier = Modifier
-                                            .size(40.dp)
-                                            .padding(end = 8.dp)
-                                    )
-                                }
-                            )
-
-                            // Dummy info 2
-                            ListItem(
-                                text = {
-                                    SupportingText(
-                                        text = "Score",
-                                        color = MaterialTheme.colors.primary
-                                    )
-                                },
-                                secondaryText = {
-                                    HeadlineText(
-                                        text = artist.mbScore.toString(),
-                                        color = MaterialTheme.colors.primary
-                                    )
-                                },
-                                icon = {
-                                    Icon(
-                                        Icons.Default.TrendingUp,
-                                        contentDescription = "",
-                                        tint = MaterialTheme.colors.primary,
-                                        modifier = Modifier
-                                            .size(40.dp)
-                                            .padding(end = 8.dp)
-                                    )
-                                }
-                            )
                         }
+                    }
+                    items(
+                        getArtistDetailsFor(artist)
+                    ) { item ->
+                        ListItem(
+                            text = {
+                                SupportingText(
+                                    text = item.title,
+                                    color = MaterialTheme.colors.primary
+                                )
+                            },
+                            secondaryText = {
+                                item.detail?.let {
+                                    HeadlineText(
+                                        text = it,
+                                        color = MaterialTheme.colors.primary
+                                    )
+                                }
+                            },
+                            icon = {
+                                Icon(
+                                    item.icon,
+                                    contentDescription = "",
+                                    tint = MaterialTheme.colors.primary,
+                                    modifier = Modifier
+                                        .size(40.dp)
+                                        .padding(end = 8.dp)
+                                )
+                            }
+                        )
                     }
                 }
             }
