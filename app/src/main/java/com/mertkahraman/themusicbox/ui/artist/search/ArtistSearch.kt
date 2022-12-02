@@ -37,6 +37,7 @@ fun ArtistSearch(
         }
         LazyColumn {
             if (lazyArtistItems != null) {
+                viewModel.welcomePrompted = true
                 items(lazyArtistItems) { artist ->
                     ArtistItem(
                         artist = artist!!,
@@ -85,6 +86,10 @@ fun ArtistSearch(
                             }
                         }
                     }
+                }
+            } else if (!viewModel.welcomePrompted) {
+                item {
+                    WelcomePrompt()
                 }
             }
         }

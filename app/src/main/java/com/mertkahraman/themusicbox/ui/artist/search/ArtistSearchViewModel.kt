@@ -22,6 +22,8 @@ class ArtistSearchViewModel(
     private var _searchUIState = mutableStateOf(SearchUIState())
     val uiState: State<SearchUIState> = _searchUIState
 
+    var welcomePrompted = false
+
     fun onEvent(event: SearchUIEvent) {
         viewModelScope.launch {
             val searchQuery = when (event) {
