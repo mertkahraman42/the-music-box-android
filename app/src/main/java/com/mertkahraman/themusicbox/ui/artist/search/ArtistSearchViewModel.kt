@@ -22,9 +22,17 @@ class ArtistSearchViewModel(
     private var _searchUIState = mutableStateOf(SearchUIState())
     val uiState: State<SearchUIState> = _searchUIState
 
+    private val _searchQuery: String
+        get() = _searchUIState.value.searchQuery
+
     var welcomePrompted = false
 
+    // Represents the paginated list of [Artist] data received from repo.
+    var artistsPagingDataFlow: Flow<PagingData<Artist>>? = getSearchResultStream()
+
+    // Search related events are received here and the state is updated accordingly.
     fun onEvent(event: SearchUIEvent) {
+        // TODO: Add Offer Channel flow here so we can flatmap latest and debounce the events.
         viewModelScope.launch {
             val searchQuery = when (event) {
                 is SearchUIEvent.SearchValueChanged -> event.searchQueryText
@@ -33,14 +41,14 @@ class ArtistSearchViewModel(
             _searchUIState.value = _searchUIState.value.copy(
                 searchQuery = searchQuery
             )
-
-            if (searchQuery != "")
-                getSearchResultStream(searchQuery)
+            artistsPagingDataFlow = getSearchResultStream()
         }
     }
 
-    fun getSearchResultStream(query: String): Flow<PagingData<Artist>>? {
-        return if (query == "") {
+    // Each time our search query changes, we define a new Flow,
+    // using a new PagingData with the new search query.
+    private fun getSearchResultStream(): Flow<PagingData<Artist>>? {
+        return if (_searchQuery == "") {
             null
         } else {
             Pager(
@@ -48,7 +56,7 @@ class ArtistSearchViewModel(
                     pageSize = DEFAULT_PAGE_SIZE
                 ),
                 pagingSourceFactory = {
-                    ArtistSource(repository, query, DEFAULT_PAGE_SIZE)
+                    ArtistSource(repository, _searchQuery, DEFAULT_PAGE_SIZE)
                 }
             ).flow.cachedIn(viewModelScope)
         }

@@ -27,9 +27,7 @@ fun ArtistSearch(
     val localFocus = LocalFocusManager.current
     val searchTextState = viewModel.uiState.value
 
-    // TODO: [FIXIT] List gets refreshed at any navigation (from and to this composable)
-    val lazyArtistItems: LazyPagingItems<Artist>? =
-        viewModel.getSearchResultStream(searchTextState.searchQuery)?.collectAsLazyPagingItems()
+    val lazyArtistItems: LazyPagingItems<Artist>? = viewModel.artistsPagingDataFlow?.collectAsLazyPagingItems()
 
     Column {
         SearchBar(searchTextState) {
