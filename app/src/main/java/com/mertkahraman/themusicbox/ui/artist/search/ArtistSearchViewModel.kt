@@ -11,14 +11,14 @@ import androidx.paging.cachedIn
 import com.mertkahraman.themusicbox.data.model.artist.Artist
 import com.mertkahraman.themusicbox.repo.Repository
 import com.mertkahraman.themusicbox.repo.paging.ArtistSource
-import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
 class ArtistSearchViewModel(
     private val repository: Repository
 ) : ViewModel() {
 
-    // TODO: Implement Debounce on typeahead search
     private var _searchUIState = mutableStateOf(SearchUIState())
     val uiState: State<SearchUIState> = _searchUIState
 
@@ -28,11 +28,10 @@ class ArtistSearchViewModel(
     var welcomePrompted = false
 
     // Represents the paginated list of [Artist] data received from repo.
-    var artistsPagingDataFlow: Flow<PagingData<Artist>>? = getSearchResultStream()
+    var artistsPagingDataFlow: Flow<PagingData<Artist>>? = null
 
     // Search related events are received here and the state is updated accordingly.
     fun onEvent(event: SearchUIEvent) {
-        // TODO: Add Offer Channel flow here so we can flatmap latest and debounce the events.
         viewModelScope.launch {
             val searchQuery = when (event) {
                 is SearchUIEvent.SearchValueChanged -> event.searchQueryText
@@ -41,28 +40,26 @@ class ArtistSearchViewModel(
             _searchUIState.value = _searchUIState.value.copy(
                 searchQuery = searchQuery
             )
-            artistsPagingDataFlow = getSearchResultStream()
+            artistsPagingDataFlow = if (searchQuery == "") null else getSearchResultStream()
         }
     }
 
     // Each time our search query changes, we define a new Flow,
     // using a new PagingData with the new search query.
-    private fun getSearchResultStream(): Flow<PagingData<Artist>>? {
-        return if (_searchQuery == "") {
-            null
-        } else {
-            Pager(
-                PagingConfig(
-                    pageSize = DEFAULT_PAGE_SIZE
-                ),
-                pagingSourceFactory = {
-                    ArtistSource(repository, _searchQuery, DEFAULT_PAGE_SIZE)
-                }
-            ).flow.cachedIn(viewModelScope)
-        }
+    @OptIn(FlowPreview::class)
+    private fun getSearchResultStream(): Flow<PagingData<Artist>> {
+        return Pager(
+            PagingConfig(
+                pageSize = DEFAULT_PAGE_SIZE
+            ),
+            pagingSourceFactory = {
+                ArtistSource(repository, _searchQuery, DEFAULT_PAGE_SIZE)
+            }
+        ).flow.debounce(TYPEAHEAD_DEBOUNCE_MS).cachedIn(viewModelScope)
     }
 
     companion object {
         private const val DEFAULT_PAGE_SIZE = 20
+        private const val TYPEAHEAD_DEBOUNCE_MS = 300L
     }
 }
