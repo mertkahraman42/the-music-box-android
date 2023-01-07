@@ -11,6 +11,6 @@ interface ReleaseGroupDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun saveReleaseGroups(releaseGroups: List<ReleaseGroup>)
 
-    @Query("SELECT * FROM release_group WHERE ownerArtistMbid LIKE :ownerArtistMbid ORDER BY title DESC LIMIT :pageSize OFFSET :offset ")
+    @Query("SELECT * FROM release_groups WHERE ownerArtistMbid LIKE :ownerArtistMbid ORDER BY title DESC LIMIT :pageSize OFFSET :offset ")
     suspend fun browseReleaseGroupsForArtist(ownerArtistMbid: String, pageSize: Int, offset: Int): List<ReleaseGroup>
 }

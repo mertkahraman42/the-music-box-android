@@ -4,7 +4,7 @@ import androidx.room.Entity
 import com.google.gson.annotations.SerializedName
 import com.mertkahraman.themusicbox.data.model.artist.Artist
 
-@Entity(tableName = "release_group")
+@Entity(tableName = "release_groups")
 class ReleaseGroup(
     mbid: String,
     val title: String,
@@ -13,7 +13,7 @@ class ReleaseGroup(
     @SerializedName("primary-type")
     val primaryType: PrimaryType?,
 
-) : MBEntity(mbid) {
+    ) : MbEntity(mbid) {
 
     enum class PrimaryType(val value: String) {
         @SerializedName("Album")

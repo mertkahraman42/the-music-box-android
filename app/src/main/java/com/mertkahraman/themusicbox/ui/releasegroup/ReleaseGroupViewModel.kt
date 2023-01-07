@@ -15,7 +15,7 @@ class ReleaseGroupViewModel(
     private val repository: Repository
 ) : ViewModel() {
 
-    // TODO: Carry this into a separate Release Groups View Model
+    // TODO: [Issue#2] Merge VMs
     fun getReleaseGroupsForArtistStream(ownerArtistMbid: String): Flow<PagingData<ReleaseGroup>>? {
         return Pager(
             PagingConfig(

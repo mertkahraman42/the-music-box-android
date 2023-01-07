@@ -44,6 +44,7 @@ class ArtistSearchViewModel(
         }
     }
 
+    // TODO: [Issue#2] Merge VMs
     // Each time our search query changes, we define a new Flow,
     // using a new PagingData with the new search query.
     @OptIn(FlowPreview::class)

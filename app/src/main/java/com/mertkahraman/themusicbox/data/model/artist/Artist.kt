@@ -3,7 +3,7 @@ package com.mertkahraman.themusicbox.data.model.artist
 import androidx.room.Embedded
 import androidx.room.Entity
 import com.google.gson.annotations.SerializedName
-import com.mertkahraman.themusicbox.data.model.MBEntity
+import com.mertkahraman.themusicbox.data.model.MbEntity
 
 @Entity(tableName = "artists")
 class Artist(
@@ -17,7 +17,7 @@ class Artist(
     val lifeSpan: LifeSpan?,
     @Embedded
     val area: Area?
-) : MBEntity(mbid) {
+) : MbEntity(mbid) {
 
     // Overriding equals for testing
     override fun equals(other: Any?): Boolean {

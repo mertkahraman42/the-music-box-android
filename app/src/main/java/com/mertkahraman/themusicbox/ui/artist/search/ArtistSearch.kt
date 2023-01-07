@@ -17,6 +17,7 @@ import com.mertkahraman.themusicbox.ui.components.FullscreenSpinner
 import com.mertkahraman.themusicbox.ui.components.SpinnerListItem
 import org.koin.androidx.compose.getViewModel
 
+// TODO: [Issue#11] Merge Composables
 // This assignment project has a narrow scope and we won't be using this page to search anything else,
 // However, this could be easily extended to something like SearchEntity to search all sorts of MB entities.
 @Composable
