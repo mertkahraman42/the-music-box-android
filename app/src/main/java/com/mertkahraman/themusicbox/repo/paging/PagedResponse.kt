@@ -1,23 +1,35 @@
 package com.mertkahraman.themusicbox.repo.paging
 
 import com.google.gson.annotations.SerializedName
+import com.mertkahraman.themusicbox.data.model.MbEntity
 import com.mertkahraman.themusicbox.data.model.ReleaseGroup
 import com.mertkahraman.themusicbox.data.model.artist.Artist
 
-open class PagedResponse(
-    val offset: Int
-)
+/**
+ * Helper class to facilitate consolidation of paginated response for
+ * [ArtistsPagedResponse] and [ReleaseGroupsPagedResponse] in a single abstract class.
+ * This is primarily used in [MbEntitySource]
+ */
+abstract class PagedResponse {
+    abstract val items: List<MbEntity>
+    abstract val totalCount: Int?
+    abstract val offset: Int
+}
 
-class Artists(
-    val artists: List<Artist>,
-    offset: Int
-) : PagedResponse(offset)
+data class ArtistsPagedResponse(
+    @SerializedName("artists")
+    override val items: List<Artist>,
+    @SerializedName("count")
+    override val totalCount: Int? = null,
+    @SerializedName("offset")
+    override val offset: Int
+) : PagedResponse()
 
-class ReleaseGroups(
+class ReleaseGroupsPagedResponse(
     @SerializedName("release-groups")
-    val releaseGroups: List<ReleaseGroup>,
-    @SerializedName("release-group-offset")
-    val releaseGroupOffset: Int,
+    override val items: List<ReleaseGroup>,
     @SerializedName("release-group-count")
-    val count: Int? = null
-) : PagedResponse(offset = releaseGroupOffset)
+    override val totalCount: Int? = null,
+    @SerializedName("release-group-offset")
+    override val offset: Int
+) : PagedResponse()

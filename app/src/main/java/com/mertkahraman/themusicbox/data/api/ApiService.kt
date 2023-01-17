@@ -1,8 +1,8 @@
 package com.mertkahraman.themusicbox.data.api
 
 import com.mertkahraman.themusicbox.data.model.artist.Artist
-import com.mertkahraman.themusicbox.repo.paging.Artists
-import com.mertkahraman.themusicbox.repo.paging.ReleaseGroups
+import com.mertkahraman.themusicbox.repo.paging.ArtistsPagedResponse
+import com.mertkahraman.themusicbox.repo.paging.ReleaseGroupsPagedResponse
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -21,12 +21,12 @@ interface ApiService {
         @Query("query") query: String,
         @Query("limit") limit: Int,
         @Query("offset") offset: Int,
-    ): Artists
+    ): ArtistsPagedResponse
 
     @GET("release-group/")
     suspend fun browseReleaseGroupsForArtist(
         @Query("artist") artistMbid: String,
         @Query("limit") limit: Int,
         @Query("offset") offset: Int,
-    ): ReleaseGroups
+    ): ReleaseGroupsPagedResponse
 }

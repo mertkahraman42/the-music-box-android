@@ -6,8 +6,8 @@ import com.mertkahraman.themusicbox.data.database.dao.ArtistDao
 import com.mertkahraman.themusicbox.data.database.dao.ReleaseGroupDao
 import com.mertkahraman.themusicbox.data.model.ReleaseGroup
 import com.mertkahraman.themusicbox.data.model.artist.Artist
-import com.mertkahraman.themusicbox.repo.paging.Artists
-import com.mertkahraman.themusicbox.repo.paging.ReleaseGroups
+import com.mertkahraman.themusicbox.repo.paging.ArtistsPagedResponse
+import com.mertkahraman.themusicbox.repo.paging.ReleaseGroupsPagedResponse
 import com.mertkahraman.themusicbox.util.TAG
 
 class RepositoryImpl(
@@ -35,9 +35,10 @@ class RepositoryImpl(
         return apiArtist
     }
 
-    override suspend fun searchArtists(query: String, limit: Int, offset: Int): Artists {
+    override suspend fun searchArtists(query: String, limit: Int, offset: Int): ArtistsPagedResponse {
         Log.d(TAG, "Will searchArtists with limit: $limit - offset: $offset")
         var apiArtists: List<Artist> = listOf()
+        var artistsCount: Int? = null
         val cachedArtists = artistDao.searchArtists("$query%", limit, offset)
         try {
             val result = runCatching {
@@ -45,12 +46,13 @@ class RepositoryImpl(
             }
             result.onSuccess { pagedResponse ->
                 Log.d(TAG, "Page ${pagedResponse.offset} received")
-                pagedResponse.artists.map { artist ->
+                pagedResponse.items.map { artist ->
                     Log.d(TAG, "Fetched artist search results:")
                     Log.d(TAG, "Artist Name: ${artist.name}")
                 }
-                artistDao.saveArtists(pagedResponse.artists)
-                apiArtists = pagedResponse.artists
+                artistDao.saveArtists(pagedResponse.items)
+                apiArtists = pagedResponse.items
+                artistsCount = pagedResponse.totalCount
             }.onFailure { error ->
                 Log.d(TAG, "Artist fetch failed with error: ${error.localizedMessage}")
                 throw(error)
@@ -63,13 +65,13 @@ class RepositoryImpl(
                 throw(error)
             }
         }
-        return Artists(apiArtists, offset)
+        return ArtistsPagedResponse(apiArtists, artistsCount, offset)
     }
 
-    override suspend fun browseReleaseGroups(ownerArtistMbid: String, limit: Int, offset: Int): ReleaseGroups {
+    override suspend fun browseReleaseGroups(ownerArtistMbid: String, limit: Int, offset: Int): ReleaseGroupsPagedResponse {
         Log.d(TAG, "Will browseReleaseGroups with limit: $limit - offset: $offset")
         var apiReleaseGroups: List<ReleaseGroup> = listOf()
-        var numberOfReleaseGroups: Int? = null
+        var releaseGroupsCount: Int? = null
         val cachedReleaseGroups = releaseGroupDao.browseReleaseGroupsForArtist(ownerArtistMbid, limit, offset)
         try {
             val result = runCatching {
@@ -77,14 +79,14 @@ class RepositoryImpl(
             }
             result.onSuccess { pagedResponse ->
                 Log.d(TAG, "Page ${pagedResponse.offset} received")
-                pagedResponse.releaseGroups.map { releaseGroup ->
+                pagedResponse.items.map { releaseGroup ->
                     releaseGroup.ownerArtistMbid = ownerArtistMbid
                     Log.d(TAG, "Fetched releaseGroup browse results:")
                     Log.d(TAG, "ReleaseGroup Name: ${releaseGroup.title}")
                 }
-                releaseGroupDao.saveReleaseGroups(pagedResponse.releaseGroups)
-                apiReleaseGroups = pagedResponse.releaseGroups
-                numberOfReleaseGroups = pagedResponse.count
+                releaseGroupDao.saveReleaseGroups(pagedResponse.items)
+                apiReleaseGroups = pagedResponse.items
+                releaseGroupsCount = pagedResponse.totalCount
             }.onFailure { error ->
                 Log.d(TAG, "ReleaseGroup fetch failed with error: ${error.localizedMessage}")
                 throw(error)
@@ -97,6 +99,6 @@ class RepositoryImpl(
                 throw(error)
             }
         }
-        return ReleaseGroups(apiReleaseGroups, offset, numberOfReleaseGroups)
+        return ReleaseGroupsPagedResponse(apiReleaseGroups, releaseGroupsCount, offset)
     }
 }

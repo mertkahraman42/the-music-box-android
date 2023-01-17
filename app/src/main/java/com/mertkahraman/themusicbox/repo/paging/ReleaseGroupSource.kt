@@ -5,6 +5,7 @@ import androidx.paging.PagingState
 import com.mertkahraman.themusicbox.data.model.ReleaseGroup
 import com.mertkahraman.themusicbox.repo.Repository
 
+// TODO: [Issue#12] Merge PagingSource
 class ReleaseGroupSource(
     private val repository: Repository,
     private var ownerArtistMbid: String,
@@ -16,16 +17,16 @@ class ReleaseGroupSource(
             val nextPage = params.key ?: 0
             val rgResponse = repository.browseReleaseGroups(ownerArtistMbid, pageSize, nextPage)
 
-            rgResponse.count?.let { totalItemsCount ->
-                if (rgResponse.releaseGroupOffset > totalItemsCount && rgResponse.releaseGroups.isEmpty())
+            rgResponse.totalCount?.let { totalItemsCount ->
+                if (rgResponse.offset > totalItemsCount && rgResponse.items.isEmpty())
                     return LoadResult.Error(EndOfListException("No more items left to fetch."))
             }
 
-            if (rgResponse.releaseGroups.isEmpty())
+            if (rgResponse.items.isEmpty())
                 LoadResult.Error(NoResultsException("No results retrieved."))
             else
                 LoadResult.Page(
-                    data = rgResponse.releaseGroups,
+                    data = rgResponse.items,
                     prevKey = if (nextPage == 0) null else nextPage - 1,
                     nextKey = rgResponse.offset + pageSize
                 )

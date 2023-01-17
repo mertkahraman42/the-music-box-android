@@ -5,6 +5,7 @@ import androidx.paging.PagingState
 import com.mertkahraman.themusicbox.data.model.artist.Artist
 import com.mertkahraman.themusicbox.repo.Repository
 
+// TODO: [Issue#12] Merge PagingSource
 class ArtistSource(
     private val repository: Repository,
     var query: String,
@@ -16,11 +17,11 @@ class ArtistSource(
             val nextPage = params.key ?: 0
             val artistsResponse = repository.searchArtists(query, pageSize, nextPage)
 
-            if (artistsResponse.artists.isEmpty())
+            if (artistsResponse.items.isEmpty())
                 LoadResult.Error(NoResultsException("No results retrieved."))
             else
                 LoadResult.Page(
-                    data = artistsResponse.artists,
+                    data = artistsResponse.items,
                     prevKey = if (nextPage == 0) null else nextPage - 1,
                     nextKey = artistsResponse.offset + pageSize
                 )
