@@ -13,7 +13,7 @@ class ReleaseGroup(
     @SerializedName("primary-type")
     val primaryType: PrimaryType?,
 
-    ) : MbEntity(mbid) {
+) : MbEntity(mbid) {
 
     enum class PrimaryType(val value: String) {
         @SerializedName("Album")

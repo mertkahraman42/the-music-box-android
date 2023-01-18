@@ -2,14 +2,13 @@ package com.mertkahraman.themusicbox.ui.releasegroup
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.paging.Pager
-import androidx.paging.PagingConfig
-import androidx.paging.PagingData
-import androidx.paging.cachedIn
+import androidx.paging.*
 import com.mertkahraman.themusicbox.data.model.ReleaseGroup
 import com.mertkahraman.themusicbox.repo.Repository
-import com.mertkahraman.themusicbox.repo.paging.ReleaseGroupSource
+import com.mertkahraman.themusicbox.repo.paging.MbEntitySource
+import com.mertkahraman.themusicbox.repo.paging.MbEntitySourceArgs
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 
 class ReleaseGroupViewModel(
     private val repository: Repository
@@ -22,9 +21,11 @@ class ReleaseGroupViewModel(
                 pageSize = DEFAULT_PAGE_SIZE
             ),
             pagingSourceFactory = {
-                ReleaseGroupSource(repository, ownerArtistMbid, DEFAULT_PAGE_SIZE)
+                MbEntitySource(repository, MbEntitySourceArgs.BrowseReleaseGroup(ownerArtistMbid), DEFAULT_PAGE_SIZE)
             }
-        ).flow.cachedIn(viewModelScope)
+        ).flow
+            .map { pagingData -> pagingData.map { it as ReleaseGroup } }
+            .cachedIn(viewModelScope)
     }
 
     companion object {

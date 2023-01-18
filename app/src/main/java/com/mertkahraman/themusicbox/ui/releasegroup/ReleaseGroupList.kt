@@ -11,13 +11,11 @@ import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.items
 import com.mertkahraman.themusicbox.data.model.ReleaseGroup
-import com.mertkahraman.themusicbox.repo.paging.ReleaseGroupSource
+import com.mertkahraman.themusicbox.repo.paging.MbEntitySource
 import com.mertkahraman.themusicbox.ui.components.*
 import org.koin.androidx.compose.getViewModel
 
 // TODO: [Issue#11] Merge Composables
-// This assignment project has a narrow scope and we won't be using this page to search anything else,
-// However, this could be easily extended to something like SearchEntity to search all sorts of MB entities.
 @Composable
 fun ReleaseGroupList(
     ownerArtistMbid: String,
@@ -35,7 +33,7 @@ fun ReleaseGroupList(
                         releaseGroup = releaseGroup!!,
                         onSelectReleaseGroup
                     )
-                    Divider()
+                    Divider() // TODO: [Issue#11] Merge Composables
                 }
 
                 lazyReleaseGroupItems.apply {
@@ -49,15 +47,15 @@ fun ReleaseGroupList(
                         loadState.refresh is LoadState.Error -> {
                             val refreshError = lazyReleaseGroupItems.loadState.refresh as LoadState.Error
                             when (refreshError.error) {
-                                is ReleaseGroupSource.NoResultsException -> {
+                                is MbEntitySource.NoResultsException -> {
                                     item {
-                                        EmptyListIndicator(
+                                        EmptyListIndicator( // TODO: [Issue#11] Merge Composables
                                             modifier = Modifier.fillParentMaxSize(),
                                             query = "this album."
                                         )
                                     }
                                 }
-                                is ReleaseGroupSource.EndOfListException -> {
+                                is MbEntitySource.EndOfListException -> { // TODO: [Issue#11] Merge Composables
                                     item {
                                         EndOfListIndicator(modifier = Modifier.fillMaxWidth())
                                     }
@@ -76,7 +74,7 @@ fun ReleaseGroupList(
                         loadState.append is LoadState.Error -> {
                             val appendError = lazyReleaseGroupItems.loadState.append as LoadState.Error
                             when (appendError.error) {
-                                is ReleaseGroupSource.NoResultsException -> {
+                                is MbEntitySource.NoResultsException -> {
                                     item {
                                         EmptyListIndicator(
                                             modifier = Modifier.fillParentMaxSize(),
@@ -84,7 +82,7 @@ fun ReleaseGroupList(
                                         )
                                     }
                                 }
-                                is ReleaseGroupSource.EndOfListException -> {
+                                is MbEntitySource.EndOfListException -> {
                                     item {
                                         EndOfListIndicator(modifier = Modifier.fillMaxWidth())
                                     }

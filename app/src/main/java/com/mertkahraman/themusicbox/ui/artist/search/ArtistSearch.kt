@@ -10,7 +10,7 @@ import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.items
 import com.mertkahraman.themusicbox.data.model.artist.Artist
-import com.mertkahraman.themusicbox.repo.paging.ArtistSource
+import com.mertkahraman.themusicbox.repo.paging.MbEntitySource
 import com.mertkahraman.themusicbox.ui.components.EmptyListIndicator
 import com.mertkahraman.themusicbox.ui.components.ErrorListItem
 import com.mertkahraman.themusicbox.ui.components.FullscreenSpinner
@@ -18,8 +18,6 @@ import com.mertkahraman.themusicbox.ui.components.SpinnerListItem
 import org.koin.androidx.compose.getViewModel
 
 // TODO: [Issue#11] Merge Composables
-// This assignment project has a narrow scope and we won't be using this page to search anything else,
-// However, this could be easily extended to something like SearchEntity to search all sorts of MB entities.
 @Composable
 fun ArtistSearch(
     viewModel: ArtistSearchViewModel = getViewModel(),
@@ -36,7 +34,7 @@ fun ArtistSearch(
         }
         LazyColumn {
             if (lazyArtistItems != null) {
-                viewModel.welcomePrompted = true
+                viewModel.welcomePrompted = true // TODO: [Issue#11] Merge Composables
                 items(lazyArtistItems) { artist ->
                     ArtistItem(
                         artist = artist!!,
@@ -55,9 +53,9 @@ fun ArtistSearch(
                         loadState.refresh is LoadState.Error -> {
                             val loadStateError = lazyArtistItems.loadState.refresh as LoadState.Error
                             when (loadStateError.error) {
-                                is ArtistSource.NoResultsException -> {
+                                is MbEntitySource.NoResultsException -> {
                                     item {
-                                        EmptyListIndicator(
+                                        EmptyListIndicator( // TODO: [Issue#11] Merge Composables
                                             modifier = Modifier.fillParentMaxSize(),
                                             query = searchTextState.searchQuery
                                         )

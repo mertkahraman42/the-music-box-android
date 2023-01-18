@@ -4,13 +4,11 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.paging.Pager
-import androidx.paging.PagingConfig
-import androidx.paging.PagingData
-import androidx.paging.cachedIn
+import androidx.paging.*
 import com.mertkahraman.themusicbox.data.model.artist.Artist
 import com.mertkahraman.themusicbox.repo.Repository
-import com.mertkahraman.themusicbox.repo.paging.ArtistSource
+import com.mertkahraman.themusicbox.repo.paging.MbEntitySource
+import com.mertkahraman.themusicbox.repo.paging.MbEntitySourceArgs
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -54,9 +52,12 @@ class ArtistSearchViewModel(
                 pageSize = DEFAULT_PAGE_SIZE
             ),
             pagingSourceFactory = {
-                ArtistSource(repository, _searchQuery, DEFAULT_PAGE_SIZE)
+                MbEntitySource(repository, MbEntitySourceArgs.SearchArtist(_searchQuery), DEFAULT_PAGE_SIZE)
             }
-        ).flow.debounce(TYPEAHEAD_DEBOUNCE_MS).cachedIn(viewModelScope)
+        ).flow
+            .debounce(TYPEAHEAD_DEBOUNCE_MS)
+            .map { pagingData -> pagingData.map { it as Artist } }
+            .cachedIn(viewModelScope)
     }
 
     companion object {
