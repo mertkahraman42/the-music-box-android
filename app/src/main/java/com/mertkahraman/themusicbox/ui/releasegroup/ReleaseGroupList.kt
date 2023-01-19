@@ -14,87 +14,88 @@ import com.mertkahraman.themusicbox.data.model.ReleaseGroup
 import com.mertkahraman.themusicbox.repo.paging.MbEntitySource
 import com.mertkahraman.themusicbox.ui.components.*
 import org.koin.androidx.compose.getViewModel
+import org.koin.core.parameter.parametersOf
 
 // TODO: [Issue#11] Merge Composables
 @Composable
 fun ReleaseGroupList(
     ownerArtistMbid: String,
-    viewModel: ReleaseGroupViewModel = getViewModel(),
+    viewModel: ReleaseGroupViewModel = getViewModel(
+        parameters = { parametersOf(ownerArtistMbid) }
+    ),
     onSelectReleaseGroup: (ReleaseGroup) -> Unit = {},
 ) {
-    val lazyReleaseGroupItems: LazyPagingItems<ReleaseGroup>? =
-        viewModel.getReleaseGroupsForArtistStream(ownerArtistMbid)?.collectAsLazyPagingItems()
+    val lazyReleaseGroupItems: LazyPagingItems<ReleaseGroup> =
+        viewModel.browseReleaseGroups().collectAsLazyPagingItems()
 
     Column {
         LazyColumn {
-            if (lazyReleaseGroupItems != null) {
-                items(lazyReleaseGroupItems) { releaseGroup ->
-                    ReleaseGroupItem(
-                        releaseGroup = releaseGroup!!,
-                        onSelectReleaseGroup
-                    )
-                    Divider() // TODO: [Issue#11] Merge Composables
-                }
+            items(lazyReleaseGroupItems) { releaseGroup ->
+                ReleaseGroupItem(
+                    releaseGroup = releaseGroup!!,
+                    onSelectReleaseGroup
+                )
+                Divider() // TODO: [Issue#11] Merge Composables
+            }
 
-                lazyReleaseGroupItems.apply {
-                    when {
-                        loadState.refresh is LoadState.Loading -> {
-                            item { FullscreenSpinner(modifier = Modifier.fillParentMaxSize()) }
-                        }
-                        loadState.append is LoadState.Loading -> {
-                            item { SpinnerListItem() }
-                        }
-                        loadState.refresh is LoadState.Error -> {
-                            val refreshError = lazyReleaseGroupItems.loadState.refresh as LoadState.Error
-                            when (refreshError.error) {
-                                is MbEntitySource.NoResultsException -> {
-                                    item {
-                                        EmptyListIndicator( // TODO: [Issue#11] Merge Composables
-                                            modifier = Modifier.fillParentMaxSize(),
-                                            query = "this album."
-                                        )
-                                    }
+            lazyReleaseGroupItems.apply {
+                when {
+                    loadState.refresh is LoadState.Loading -> {
+                        item { FullscreenSpinner(modifier = Modifier.fillParentMaxSize()) }
+                    }
+                    loadState.append is LoadState.Loading -> {
+                        item { SpinnerListItem() }
+                    }
+                    loadState.refresh is LoadState.Error -> {
+                        val refreshError = lazyReleaseGroupItems.loadState.refresh as LoadState.Error
+                        when (refreshError.error) {
+                            is MbEntitySource.NoResultsException -> {
+                                item {
+                                    EmptyListIndicator( // TODO: [Issue#11] Merge Composables
+                                        modifier = Modifier.fillParentMaxSize(),
+                                        query = "this album."
+                                    )
                                 }
-                                is MbEntitySource.EndOfListException -> { // TODO: [Issue#11] Merge Composables
-                                    item {
-                                        EndOfListIndicator(modifier = Modifier.fillMaxWidth())
-                                    }
+                            }
+                            is MbEntitySource.EndOfListException -> { // TODO: [Issue#11] Merge Composables
+                                item {
+                                    EndOfListIndicator(modifier = Modifier.fillMaxWidth())
                                 }
-                                else -> {
-                                    item {
-                                        ErrorListItem(
-                                            modifier = Modifier.fillParentMaxSize(),
-                                            errorMessage = refreshError.error.localizedMessage!!,
-                                            onRetry = { retry() }
-                                        )
-                                    }
+                            }
+                            else -> {
+                                item {
+                                    ErrorListItem(
+                                        modifier = Modifier.fillParentMaxSize(),
+                                        errorMessage = refreshError.error.localizedMessage!!,
+                                        onRetry = { retry() }
+                                    )
                                 }
                             }
                         }
-                        loadState.append is LoadState.Error -> {
-                            val appendError = lazyReleaseGroupItems.loadState.append as LoadState.Error
-                            when (appendError.error) {
-                                is MbEntitySource.NoResultsException -> {
-                                    item {
-                                        EmptyListIndicator(
-                                            modifier = Modifier.fillParentMaxSize(),
-                                            query = "this album."
-                                        )
-                                    }
+                    }
+                    loadState.append is LoadState.Error -> {
+                        val appendError = lazyReleaseGroupItems.loadState.append as LoadState.Error
+                        when (appendError.error) {
+                            is MbEntitySource.NoResultsException -> {
+                                item {
+                                    EmptyListIndicator(
+                                        modifier = Modifier.fillParentMaxSize(),
+                                        query = "this album."
+                                    )
                                 }
-                                is MbEntitySource.EndOfListException -> {
-                                    item {
-                                        EndOfListIndicator(modifier = Modifier.fillMaxWidth())
-                                    }
+                            }
+                            is MbEntitySource.EndOfListException -> {
+                                item {
+                                    EndOfListIndicator(modifier = Modifier.fillMaxWidth())
                                 }
-                                else -> {
-                                    item {
-                                        ErrorListItem(
-                                            modifier = Modifier.fillParentMaxSize(),
-                                            errorMessage = appendError.error.localizedMessage!!,
-                                            onRetry = { retry() }
-                                        )
-                                    }
+                            }
+                            else -> {
+                                item {
+                                    ErrorListItem(
+                                        modifier = Modifier.fillParentMaxSize(),
+                                        errorMessage = appendError.error.localizedMessage!!,
+                                        onRetry = { retry() }
+                                    )
                                 }
                             }
                         }
