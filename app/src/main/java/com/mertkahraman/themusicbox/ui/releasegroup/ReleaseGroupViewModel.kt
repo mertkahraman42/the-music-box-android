@@ -4,13 +4,13 @@ import androidx.paging.PagingData
 import com.mertkahraman.themusicbox.data.model.ReleaseGroup
 import com.mertkahraman.themusicbox.repo.Repository
 import com.mertkahraman.themusicbox.repo.paging.MbEntitySourceArgs
-import com.mertkahraman.themusicbox.ui.components.BasePagedMbEntityViewModel
+import com.mertkahraman.themusicbox.ui.components.PaginatedListViewModel
 import kotlinx.coroutines.flow.Flow
 
 class ReleaseGroupViewModel(
     private val repository: Repository,
     var ownerArtistMbid: String
-) : BasePagedMbEntityViewModel<ReleaseGroup>(repository) {
+) : PaginatedListViewModel<ReleaseGroup>(repository) {
 
     fun browseReleaseGroups(): Flow<PagingData<ReleaseGroup>> {
         val args = MbEntitySourceArgs.BrowseReleaseGroup(ownerArtistMbid)

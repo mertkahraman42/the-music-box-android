@@ -10,7 +10,7 @@ import com.mertkahraman.themusicbox.repo.paging.MbEntitySourceArgs
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
-open class BasePagedMbEntityViewModel<E : MbEntity>(
+open class PaginatedListViewModel<E : MbEntity>(
     private val repository: Repository
 ) : ViewModel() {
 
