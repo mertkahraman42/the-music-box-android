@@ -1,6 +1,7 @@
 package com.mertkahraman.themusicbox.ui.releasegroup
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.Divider
@@ -48,60 +49,47 @@ fun ReleaseGroupList(
                     }
                     loadState.refresh is LoadState.Error -> {
                         val refreshError = lazyReleaseGroupItems.loadState.refresh as LoadState.Error
-                        when (refreshError.error) {
-                            is MbEntitySource.NoResultsException -> {
-                                item {
-                                    EmptyListIndicator( // TODO: [Issue#11] Merge Composables
-                                        modifier = Modifier.fillParentMaxSize(),
-                                        query = "this album."
-                                    )
-                                }
-                            }
-                            is MbEntitySource.EndOfListException -> { // TODO: [Issue#11] Merge Composables
-                                item {
-                                    EndOfListIndicator(modifier = Modifier.fillMaxWidth())
-                                }
-                            }
-                            else -> {
-                                item {
-                                    ErrorListItem(
-                                        modifier = Modifier.fillParentMaxSize(),
-                                        errorMessage = refreshError.error.localizedMessage!!,
-                                        onRetry = { retry() }
-                                    )
-                                }
+                        item {
+                            LoadError(refreshError) {
+                                lazyReleaseGroupItems.retry()
                             }
                         }
                     }
                     loadState.append is LoadState.Error -> {
                         val appendError = lazyReleaseGroupItems.loadState.append as LoadState.Error
-                        when (appendError.error) {
-                            is MbEntitySource.NoResultsException -> {
-                                item {
-                                    EmptyListIndicator(
-                                        modifier = Modifier.fillParentMaxSize(),
-                                        query = "this album."
-                                    )
-                                }
-                            }
-                            is MbEntitySource.EndOfListException -> {
-                                item {
-                                    EndOfListIndicator(modifier = Modifier.fillMaxWidth())
-                                }
-                            }
-                            else -> {
-                                item {
-                                    ErrorListItem(
-                                        modifier = Modifier.fillParentMaxSize(),
-                                        errorMessage = appendError.error.localizedMessage!!,
-                                        onRetry = { retry() }
-                                    )
-                                }
+                        item {
+                            LoadError(appendError) {
+                                lazyReleaseGroupItems.retry()
                             }
                         }
                     }
                 }
             }
+        }
+    }
+}
+
+@Composable
+private fun LoadError(
+    appendError: LoadState.Error,
+    onRetry: () -> Unit
+) {
+    when (appendError.error) {
+        is MbEntitySource.NoResultsException -> {
+            EmptyListIndicator(
+                modifier = Modifier.fillMaxSize(),
+                query = "this album."
+            )
+        }
+        is MbEntitySource.EndOfListException -> {
+            EndOfListIndicator(modifier = Modifier.fillMaxWidth())
+        }
+        else -> {
+            ErrorListItem(
+                modifier = Modifier.fillMaxSize(),
+                errorMessage = appendError.error.localizedMessage!!,
+                onRetry = onRetry
+            )
         }
     }
 }
