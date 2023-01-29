@@ -1,6 +1,8 @@
 package com.mertkahraman.themusicbox.ui.artist.search
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -11,10 +13,7 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.items
 import com.mertkahraman.themusicbox.data.model.artist.Artist
 import com.mertkahraman.themusicbox.repo.paging.MbEntitySource
-import com.mertkahraman.themusicbox.ui.components.EmptyListIndicator
-import com.mertkahraman.themusicbox.ui.components.ErrorListItem
-import com.mertkahraman.themusicbox.ui.components.FullscreenSpinner
-import com.mertkahraman.themusicbox.ui.components.SpinnerListItem
+import com.mertkahraman.themusicbox.ui.components.*
 import org.koin.androidx.compose.getViewModel
 
 // TODO: [Issue#11] Merge Composables
@@ -26,7 +25,7 @@ fun ArtistSearch(
     val localFocus = LocalFocusManager.current
     val searchTextState = viewModel.uiState.value
 
-    val lazyArtistItems: LazyPagingItems<Artist>? = viewModel.artistsPagingDataFlow?.collectAsLazyPagingItems()
+    val lazyArtistItems: LazyPagingItems<Artist>? = viewModel.mbEntitiesPagingDataFlow?.collectAsLazyPagingItems()
 
     Column {
         SearchBar(searchTextState) {
@@ -51,35 +50,21 @@ fun ArtistSearch(
                             item { SpinnerListItem() }
                         }
                         loadState.refresh is LoadState.Error -> {
-                            val loadStateError = lazyArtistItems.loadState.refresh as LoadState.Error
-                            when (loadStateError.error) {
-                                is MbEntitySource.NoResultsException -> {
-                                    item {
-                                        EmptyListIndicator( // TODO: [Issue#11] Merge Composables
-                                            modifier = Modifier.fillParentMaxSize(),
-                                            query = searchTextState.searchQuery
-                                        )
-                                    }
-                                }
-                                else -> {
-                                    item {
-                                        localFocus.clearFocus()
-                                        ErrorListItem(
-                                            modifier = Modifier.fillParentMaxSize(),
-                                            errorMessage = loadStateError.error.localizedMessage!!,
-                                            onRetry = { retry() }
-                                        )
-                                    }
+                            localFocus.clearFocus()
+                            val refreshError = lazyArtistItems.loadState.refresh as LoadState.Error
+                            item {
+                                LoadError(refreshError) {
+                                    lazyArtistItems.retry()
                                 }
                             }
                         }
                         loadState.append is LoadState.Error -> {
-                            val e = lazyArtistItems.loadState.append as LoadState.Error
+                            localFocus.clearFocus()
+                            val appendError = lazyArtistItems.loadState.append as LoadState.Error
                             item {
-                                ErrorListItem(
-                                    errorMessage = e.error.localizedMessage!!,
-                                    onRetry = { retry() }
-                                )
+                                LoadError(appendError) {
+                                    lazyArtistItems.retry()
+                                }
                             }
                         }
                     }
@@ -89,6 +74,31 @@ fun ArtistSearch(
                     WelcomePrompt()
                 }
             }
+        }
+    }
+}
+
+@Composable
+private fun LoadError(
+    appendError: LoadState.Error,
+    onRetry: () -> Unit
+) {
+    when (appendError.error) {
+        is MbEntitySource.NoResultsException -> {
+            EmptyListIndicator(
+                modifier = Modifier.fillMaxSize(),
+                query = "this album."
+            )
+        }
+        is MbEntitySource.EndOfListException -> {
+            EndOfListIndicator(modifier = Modifier.fillMaxWidth())
+        }
+        else -> {
+            ErrorListItem(
+                modifier = Modifier.fillMaxSize(),
+                errorMessage = appendError.error.localizedMessage!!,
+                onRetry = onRetry
+            )
         }
     }
 }
