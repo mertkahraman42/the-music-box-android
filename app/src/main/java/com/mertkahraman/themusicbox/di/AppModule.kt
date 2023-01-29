@@ -7,6 +7,7 @@ import com.mertkahraman.themusicbox.repo.RepositoryImpl
 import com.mertkahraman.themusicbox.ui.artist.details.ArtistDetailsViewModel
 import com.mertkahraman.themusicbox.ui.artist.search.ArtistSearchViewModel
 import com.mertkahraman.themusicbox.ui.components.PaginatedListViewModel
+import com.mertkahraman.themusicbox.ui.components.SearchablePaginatedListViewModel
 import com.mertkahraman.themusicbox.ui.releasegroup.ReleaseGroupViewModel
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -29,4 +30,5 @@ fun appModule() = module {
     viewModel { (artistMbid: String) -> ArtistDetailsViewModel(get(), artistMbid) }
     viewModel { (ownerArtistMbid: String) -> ReleaseGroupViewModel(get(), ownerArtistMbid) }
     viewModel { PaginatedListViewModel<MbEntity>(get()) }
+    viewModel { SearchablePaginatedListViewModel<MbEntity>(get()) }
 }

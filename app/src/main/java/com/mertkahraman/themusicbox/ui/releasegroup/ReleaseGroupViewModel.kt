@@ -8,7 +8,7 @@ import com.mertkahraman.themusicbox.ui.components.PaginatedListViewModel
 import kotlinx.coroutines.flow.Flow
 
 class ReleaseGroupViewModel(
-    private val repository: Repository,
+    repository: Repository,
     var ownerArtistMbid: String
 ) : PaginatedListViewModel<ReleaseGroup>(repository) {
 
